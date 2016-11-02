@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>地图</title>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+
+    <!-- Ajax -->
+    <script src="js/ajax_functions.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- 谷歌地图引擎 -->
+    <!--<script type="text/javascript" src="mapapi.js"></script>-->
+    <script src="mapbox-gl.js"></script>
+    <link href="mapbox-gl.css" rel="stylesheet">
+
+    <!-- openlayer地图引擎及样式 -->
+    <link rel="stylesheet" href="css/ol.css">
+    <script src="js/ol.js"></script>
+
+    <!-- 自定义地图相关样式 -->
+    <link rel="stylesheet" href="css/map.css">
+
+    <!-- 自定义相关方法 -->
+    <script type="text/javascript" src="js/usergooglemapapi.js"></script>
+    <script type="text/javascript" src="js/toolbutton.js"></script>
+    <script type="text/javascript" src="js/right_tool.js"></script>
+</head>
+
+<body onload="initialize()">
+    <div id="map_indoor" class="map_big">
+        <div id="popup"></div>
+    </div>
+    <div id="map_google" class="map_small"></div>
+    <!-- Split button -->
+    <div id="left-area" class="btn-group">
+        <button type="button" class="btn btn-primary" onclick="requestGetIndoorMap()">室内地图</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		  </button>
+        <ul id="menu-indoor-area" class="dropdown-menu">
+            <!--
+			<li><a>网点1</a></li>
+			<li><a>网点2</a></li>
+			<li><a>网点3</a></li>
+			<li><a>网点4</a></li>
+          -->
+        </ul>
+    </div>
+
+
+    <div id="right-tools">
+        <a class="locate-point" id="btn-add-map" data-cnzz="新建图层" data-toggle="modal" data-target="#add-layout-modal">
+            <span>新建图层</span>
+        </a>
+        <a class="locate-point" id="btn-locate-point" data-cnzz="手动标记" onclick="exchangeMouseCursor()">
+            <span>手动标记</span>
+        </a>
+        <a class="locate-point" id="btn-add-points" data-cnzz="批量标注" onclick="" ;>
+            <span>批量标注</span>
+        </a>
+        <a class="locate-point" id="btn-hide-markers" data-cnzz="隐藏标注" onclick="removeAllMarkerOnIndoorMap()" ;>
+            <span>隐藏标注</span>
+        </a>
+        <a class="locate-point" id="btn-exchange-map" data-cnzz="交换地图" onclick="exchangeMapPosition()">
+            <span>交换地图</span>
+        </a>
+        <a class="locate-point" id="btn-show-smallmap" data-cnzz="图中图" onclick="hideOrShowSmallMap()">
+            <span>图中图</span>
+        </a>
+    </div>
+    <div id="div-worning"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-layout-modal" tabindex="-1" role="dialog" aria-labelledby="add-layout-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="add-layout-modal-label">新建图层</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="add-indoorarea-form" class="form-horizontal" enctype="multipart/form-data" method="post" action="mapunit/configunit/add_indoor_area.php">
+                        <div class="form-group">
+                            <label for="inputName1" class="col-sm-2 control-label">图层名称</label>
+                            <div class="col-sm-10">
+                                <input name="areaname" type="text" class="form-control" id="inputName1" placeholder="图层名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName2" class="col-sm-2 control-label">图层类型</label>
+                            <div class="col-sm-10">
+                                <input name="areatype" type="text" class="form-control" id="inputName2" placeholder="图层类型">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName3" class="col-sm-2 control-label">所属区域</label>
+                            <div class="col-sm-10">
+                                <input name="fatherarea" type="text" class="form-control" id="inputName3" placeholder="所属区域">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputName4" class="col-sm-2 control-label">联系人</label>
+                            <div class="col-sm-10">
+                                <input name="linkman" type="text" class="form-control" id="InputName4" placeholder="联系人">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputName5" class="col-sm-2 control-label">联系电话</label>
+                            <div class="col-sm-3">
+                                <input name="areanum" type="text" class="form-control" id="InputName5" placeholder="区号">
+                            </div>
+                            <label for="InputName6" class="col-sm-1 control-label">—</label>
+                            <div class="col-sm-6">
+                                <input name="phonenum" type="text" class="form-control" id="InputName6" placeholder="联系电话">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputFile1" class="col-sm-2 control-label">上传地图</label>
+                            <div class="col-sm-10">
+                                <input name="upfile" type="file" id="InputFile1">
+                                <p class="help-block">请上传新图层的地图文件,目前仅支持jpg格式</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary center-block btn-modal-submit" onclick="requestAddIndoorMap()">添加</button>
+                        </div>
+
+                        <div id="div-addindoormap-worning"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add-note-modal" tabindex="-1" role="dialog" aria-labelledby="add-note-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="add-note-modal-label">新建节点</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="add-note-form" class="form-horizontal" enctype="multipart/form-data" method="post" action="mapunit/configunit/add_indoor_marker.php">
+                        <input id="markerlayoutid" name="markerlayoutid" type="text" class="hidden" placeholder="所属图层编号" readonly="true">
+                        <div class="form-group">
+                            <label for="markername" class="col-sm-2 control-label">节点名称</label>
+                            <div class="col-sm-10">
+                                <input name="markername" type="text" class="form-control" id="markername" placeholder="节点名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!--
+						<label for="markertype" class="col-sm-2 control-label">节点类型</label>
+						<div class="col-sm-10">
+							<input name="markertype" type="text" class="form-control" id="markertype" placeholder="节点类型">
+						</div>
+						-->
+                            <label for="markertype" class="col-sm-2 control-label">节点类型</label>
+                            <div class="col-sm-10">
+                                <div class="input-group ">
+                                    <input name="markertype" type="text" class="form-control" id="markertype" placeholder="节点类型" readonly="true">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择<span class="caret"></span></button>
+                                        <ul id="menu-note-type" class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="#">场所</a></li>
+                                            <li><a href="#">楼层</a></li>
+                                            <li><a href="#">虚拟设备</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">监控主机</a></li>
+                                            <li><a href="#">报警主机</a></li>
+                                            <li><a href="#">门禁主机</a></li>
+                                            <li><a href="#">对讲主机</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">摄像头</a></li>
+                                            <li><a href="#">探头</a></li>
+                                            <li><a href="#">输出</a></li>
+                                            <li><a href="#">面板</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="markerposition" class="col-sm-2 control-label">节点坐标</label>
+                            <div class="col-sm-10">
+                                <input name="markerposition" type="text" class="form-control" id="markerposition" placeholder="节点坐标" readonly="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary center-block btn-modal-submit" onclick="requestAddIndoorMarker()">添加</button>
+                        </div>
+                        <div id="div-addnote-worning"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义相关方法 openlayer必须放在body中 原因暂不明 -->
+    <script type="text/javascript" src="js/userindoormapapi.js"></script>
+    <script src="js/area_tool.js"></script>
+    <script src="js/note_tool.js"></script>
+</body>
+
+</html>

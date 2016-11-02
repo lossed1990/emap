@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="mapbox-gl.js"></script>
+    <link href="mapbox-gl.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mapboxgl-map" id="map">
+        <div class="mapboxgl-canvas-container mapboxgl-interactive">
+            <canvas width="1919" height="259" tabindex="0" class="mapboxgl-canvas" style="width: 1745px; height: 236px; position: absolute;"></canvas>
+        </div>
+        <div class="mapboxgl-control-container">
+            <div class="mapboxgl-ctrl-top-left"></div>
+            <div class="mapboxgl-ctrl-top-right"></div>
+            <div class="mapboxgl-ctrl-bottom-left"></div>
+            <div class="mapboxgl-ctrl-bottom-right">
+                <div class="mapboxgl-ctrl-attrib mapboxgl-ctrl"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mybright.json', //stylesheet location
+            center: [121.4, 31.2], // starting position
+            zoom: 12 // starting zoom
+        });
+    </script>
+
+
+
+
+</body>
+
+</html>
