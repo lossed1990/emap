@@ -32,7 +32,8 @@ function getXMLHTTPRequest() {
  * @breif 初始化相关地图
  */
 function initialize() {
-    initGoogleMap();
+    //initGoogleMap();
+    initOutdoorMap();
     initIndoorMap();
 }
 
@@ -44,13 +45,13 @@ function initialize() {
 function exchangeMapPosition() {
     var classname = document.getElementById('map_indoor').className;
 
-    document.getElementById('map_indoor').className = document.getElementById('map_google').className;
-    document.getElementById('map_google').className = classname;
+    document.getElementById('map_indoor').className = document.getElementById('map_outdoor').className;
+    document.getElementById('map_outdoor').className = classname;
 
     //交换显示值，以防交换时小地图被隐藏
     var visible = document.getElementById('map_indoor').style.visibility;
-    document.getElementById('map_indoor').style.visibility = document.getElementById('map_google').style.visibility;
-    document.getElementById('map_google').style.visibility = visible;
+    document.getElementById('map_indoor').style.visibility = document.getElementById('map_outdoor').style.visibility;
+    document.getElementById('map_outdoor').style.visibility = visible;
 
     //此处注意触发一个窗口大小改变事件，用于地图引擎的重新加载，否则地图将会出现异常
     var resizeEvent = document.createEvent("HTMLEvents");
@@ -65,8 +66,8 @@ function exchangeMapPosition() {
  */
 function hideOrShowSmallMap() {
     var smallMapDiv;
-    if (document.getElementById('map_google').className === "map_small") {
-        smallMapDiv = document.getElementById('map_google');
+    if (document.getElementById('map_outdoor').className === "map_small") {
+        smallMapDiv = document.getElementById('map_outdoor');
     } else {
         smallMapDiv = document.getElementById('map_indoor');
     }
