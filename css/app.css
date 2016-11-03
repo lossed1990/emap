@@ -1,0 +1,195 @@
+html {
+    width: 100%;
+    height: 100%
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/* -----------室内布防图相关样式--------------------*/
+
+.map_big {
+    height: 100%;
+    width: 100%;
+    float: left;
+    z-index: 0;
+}
+
+.ol-dragbox {
+    background-color: rgba(255, 0, 0, 0.05);
+    border-color: rgba(255, 0, 0, 1);
+}
+
+
+/* 新增按钮相关*/
+
+.rotate-north {
+    top: 165px;
+    left: .5em;
+}
+
+.ol-touch .rotate-north {
+    top: 80px;
+}
+
+
+/*  全屏相关*/
+
+.map:-moz-full-screen {
+    height: 100%;
+}
+
+.map:-webkit-full-screen {
+    height: 100%;
+}
+
+.map:fullscreen {
+    height: 100%;
+}
+
+
+/* position the rotate control lower than usual */
+
+.ol-rotate {
+    top: 3em;
+}
+
+
+/* -----------谷歌地图相关样式--------------------*/
+
+.map_small {
+    width: 25%;
+    height: 25%;
+    margin-top: 0px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #dddddd;
+    background-color: #ffffff;
+    z-index: 1;
+}
+
+
+/* -----------工具栏相关样式--------------------*/
+
+.controltool {
+    left: 50%;
+    margin-left: -400px;
+    position: absolute;
+    text-align: center;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    width: 800px;
+    height: 80px;
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    top: expression(offsetParent.scrollTop+0);
+}
+
+#left-area {
+    position: absolute;
+    left: 25px;
+    top: 12px;
+    z-index: 200;
+}
+
+#right-tools {
+    background-color: #FFF;
+    position: absolute;
+    right: 25px;
+    top: 12px;
+    height: 50px;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+}
+
+#right-tools a {
+    border-right: 1px solid #E6E6E6;
+    display: inline-block;
+    height: 50px;
+    width: 60px;
+    overflow: hidden;
+    cursor: pointer;
+    color: #333;
+}
+
+#right-tools a:hover {
+    opacity: 0.7;
+}
+
+#right-tools a span {
+    display: block;
+    font-size: small;
+    text-align: center;
+    line-height: 14px;
+    margin-top: 35px;
+    transform: scale(0.875);
+}
+
+#right-tools #btn-add-map {
+    background: #FFF url("../img/right_tool/right_tool_addmap.png") no-repeat scroll 50% 35%;
+}
+
+#right-tools #btn-locate-point {
+    background: #FFF url("../img/right_tool/right_tool_locationpoint.png") no-repeat scroll 50% 35%;
+}
+
+#right-tools #btn-add-points {
+    background: #FFF url("../img/right_tool/right_tool_addpoints.png") no-repeat scroll 50% 35%;
+}
+
+#right-tools #btn-exchange-map {
+    background: #FFF url("../img/right_tool/right_tool_addpoints.png") no-repeat scroll 50% 35%;
+}
+
+#right-tools #btn-hide-markers {
+    background: #FFF url("../img/right_tool/right_tool_addpoints.png") no-repeat scroll 50% 35%;
+}
+
+#right-tools #btn-show-smallmap {
+    background: #FFF url("../img/right_tool/right_tool_addpoints.png") no-repeat scroll 50% 35%;
+}
+
+#add-layout {
+    background-color: #FFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 440px;
+    margin-top: -240px;
+    margin-left: -300px;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    border-radius: 5px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    visibility: hidden;
+}
+
+#btn-close-add-layout {
+    position: absolute;
+    font-size: 20px;
+    width: 42px;
+    height: 42px;
+    top: 0px;
+    margin-left: 554px;
+}
+
+.btn-modal-submit {
+    width: 20%;
+}
+
+#div-worning {
+    position: absolute;
+    top: 94%;
+    width: 100%;
+    height: 5%;
+    z-index: 100;
+}
