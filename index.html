@@ -12,13 +12,50 @@
     <link rel="stylesheet" href="css/mapbox.css">
     <link rel="stylesheet" href="css/ol.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel='stylesheet' href='css/mapbox-gl-draw.css'>
 </head>
 
 <body onload="initialize()">
+    <style>
+        .calculation-box {
+            height: 140px;
+            width: 150px;
+            position: absolute;
+            top: 210px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, .9);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        #calculate {
+            min-height: 20px;
+            background-color: #3887be;
+            color: #fff;
+            font-family: 'Open Sans';
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        
+        p {
+            font-family: 'Open Sans';
+            margin: 0;
+            font-size: 13px;
+        }
+    </style>
     <div id="map_indoor" class="map_big">
         <div id="popup"></div>
     </div>
     <div id="map_outdoor" class="map_small"></div>
+
+    <!--<div class='calculation-box'>
+        <p>Draw a polygon using the draw tools.</p>
+        <div id='calculate' class='button button'>Calculate area</div>
+        <div id='calculated-area'></div>
+    </div>-->
+
     <!-- Split button -->
     <div id="left-area" class="btn-group">
         <button type="button" class="btn btn-primary" onclick="requestGetIndoorMap()">室内地图</button>
@@ -196,6 +233,8 @@
     <script type="text/javascript" src="js/usergooglemapapi.js"></script>
     <script type="text/javascript" src="js/userindoormapapi.js"></script>
     <script type="text/javascript" src="js/outdoormap.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.12.1/mapbox-gl-draw.js'></script>
     <!--<script src="js/area_tool.js"></script>
     <script src="js/note_tool.js"></script>-->
     <script type="text/javascript">

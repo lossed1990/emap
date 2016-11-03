@@ -113,6 +113,30 @@ function initOutdoorMap() {
         zoom: 12 // starting zoom
     });
 
+    var draw = mapboxgl.Draw({
+        drawing: true,
+        displayControlsDefault: false,
+        controls: {
+            polygon: true,
+            trash: true
+        }
+    });
+    g_oOutdoormap.addControl(draw);
+
+    // var calcButton = document.getElementById('calculate');
+    // calcButton.onclick = function() {
+    //     var data = draw.getAll();
+    //     if (data.features.length > 0) {
+    //         var area = turf.area(data);
+    //         // restrict to area to 2 decimal points
+    //         var rounded_area = Math.round(area * 100) / 100;
+    //         var answer = document.getElementById('calculated-area');
+    //         answer.innerHTML = '<p><strong>' + rounded_area + '</strong></p><p>square meters</p>';
+    //     } else {
+    //         alert("Use the draw tools to draw a polygon!");
+    //     }
+    // };
+
     //启动后，加载marker
     g_oOutdoormap.on('load', function() {
         addMarkersOnOutdoorMap(m_geojson_MarkersData_onload);
@@ -124,7 +148,7 @@ function initOutdoorMap() {
 
         if (!features.length) {
             //恢复鼠标形状,并关闭marker信息框
-            g_oOutdoormap.getCanvas().style.cursor = '';
+            //g_oOutdoormap.getCanvas().style.cursor = '';
             g_oMarkerPopup.remove();
             return;
         }
