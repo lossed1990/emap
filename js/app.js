@@ -33,7 +33,8 @@ function getXMLHTTPRequest() {
  */
 function initialize() {
     //initGoogleMap();
-    initOutdoorMap();
+    //initOutdoorMap();
+    g_oOutDoorMap.initMap();
     initIndoorMap();
 }
 

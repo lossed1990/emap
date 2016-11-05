@@ -84,7 +84,7 @@
         <a class="locate-point" id="btn-add-points" data-cnzz="批量标注" onclick="test()">
             <span>批量标注</span>
         </a>
-        <a class="locate-point" id="btn-hide-markers" data-cnzz="隐藏标注" onclick="removeMarkersFromOutdoorMap()">
+        <a class="locate-point" id="btn-hide-markers" data-cnzz="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()">
             <!--removeAllMarkerOnIndoorMap()-->
             <span>隐藏标注</span>
         </a>
@@ -239,7 +239,13 @@
     <script src="js/note_tool.js"></script>-->
     <script type="text/javascript">
         function test() {
-            addMarkersOnOutdoorMap(m_geojson_MarkersData_onchange);
+            // var a = JSON.parse(m_geojson_MarkersData_onload);
+            // var b = JSON.parse(m_geojson_MarkersData_onchange);
+            //m_geojson_MarkersData_onload = m_geojson_MarkersData_onchange;
+            //g_oOutDoorMap.m_geojson_MarkersData_onchange.features = g_oOutDoorMap.m_geojson_MarkersData_onchange.features.concat(g_oOutDoorMap.m_geojson_MarkersData_onload.features);
+
+            g_oOutDoorMap.addMarkers(g_oOutDoorMap.m_geojson_MarkersData_onchange);
+            //addOutdoorMapMarkers(m_geojson_MarkersData_onchange);
         }
     </script>
 </body>
