@@ -67,17 +67,143 @@ body {
     height: 25%;
     margin-top: 0px;
     position: absolute;
-    right: 0;
+    //right: 0;
     bottom: 0;
     border: 2px solid #dddddd;
     background-color: #ffffff;
     z-index: 1;
 }
 
+.toolarea {
+    background-color: #FFF;
+    position: absolute;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    cursor: move;
+}
+
+
+/* -----------信息显示区相关样式--------------------*/
+
+#map-info {
+    width: 25%;
+    height: 25%;
+    padding: 5px;
+    right: 0;
+    z-index: 600;
+}
+
+
+/* -----------检索区相关样式--------------------*/
+
+#map-search {
+    left: 20px;
+    top: 20px;
+    width: 350px;
+    height: 45px;
+    background-color: #FFF;
+    position: absolute;
+    box-shadow: 0px;
+    z-index: 700;
+}
+
+#map-search .search-header {
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    height: 45px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#map-search .search-header img {
+    margin: 2px;
+    width: 40px;
+    height: 40px;
+    vertical-align: top;
+}
+
+#map-search .search-header input {
+    border: 0px;
+    height: 40px;
+    width: 244px;
+    margin: 2px;
+    vertical-align: top;
+}
+
+#map-search a {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    margin: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    color: #333;
+}
+
+#map-search a:hover {
+    opacity: 0.7;
+}
+
+#map-search #btn-search {
+    background: #FFF url("../img/search.png") no-repeat scroll 50% 35%;
+}
+
+.search-panel {
+    margin-top: 3px;
+    height: 350px;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    visibility: hidden;
+}
+
 
 /* -----------工具栏相关样式--------------------*/
 
-.controltool {
+.dragable {
+    width: 200px;
+    height: 50px;
+    background-color: #FFF;
+    position: absolute;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 600;
+}
+
+.dragable .dragbar {
+    position: absolute;
+    cursor: move;
+}
+
+.dragup {
+    top: -5px;
+}
+
+.dragdown {
+    bottom: -5px;
+}
+
+.dragdown,
+.dragup {
+    height: 10px;
+    width: 100%;
+    left: 0;
+}
+
+.dragleft {
+    left: -6px;
+}
+
+.dragright {
+    right: -6px;
+}
+
+.dragleft,
+.dragright {
+    height: 100%;
+    width: 12px;
+    top: 0;
+}
+
+
+/*.controltool {
     left: 50%;
     margin-left: -400px;
     position: absolute;
@@ -90,7 +216,7 @@ body {
     -moz-opacity: 0.8;
     opacity: 0.8;
     top: expression(offsetParent.scrollTop+0);
-}
+}*/
 
 #left-area {
     position: absolute;
@@ -111,6 +237,7 @@ body {
 }
 
 #right-tools a {
+    //padding: 14px 0 13px;
     border-right: 1px solid #E6E6E6;
     display: inline-block;
     height: 50px;
@@ -156,6 +283,23 @@ body {
 #right-tools #btn-show-smallmap {
     background: #FFF url("../img/right_tool/right_tool_addpoints.png") no-repeat scroll 50% 35%;
 }
+
+
+/*#right-tools .tooldragbar {
+    position: absolute;
+    cursor: move;
+}
+
+#right-tools .tooldragup {
+    top: -5px;
+}
+
+.tooldragdown,
+.tooldragup {
+    height: 10px;
+    width: 100%;
+    left: 0;
+}*/
 
 #add-layout {
     background-color: #FFF;

@@ -10,7 +10,9 @@ body {
     padding: 0px;
 }
 
+
 /* -----------室内布防图相关样式--------------------*/
+
 .map_big {
     height: 100%;
     width: 100%;
@@ -59,6 +61,7 @@ body {
 
 
 /* -----------谷歌地图相关样式--------------------*/
+
 .map_small {
     width: 25%;
     height: 25%;
@@ -68,32 +71,35 @@ body {
     bottom: 0;
     border: 2px solid #dddddd;
     background-color: #ffffff;
-     z-index: 1;
+    z-index: 1;
     <!-- //filter:alpha(Opacity=90);-moz-opacity:0.9;opacity: 0.9 -->
 }
 
 
-
 /* -----------工具栏相关样式--------------------*/
-.controltool {  
+
+
+/*.controltool {
     left: 50%;
     margin-left: -400px;
     position: absolute;
-    top: expression(offsetParent.scrollTop+0); 
+    top: expression(offsetParent.scrollTop+0);
     text-align: center;
     border: 1px solid #dddddd;
     background: #ffffff;
     width: 800px;
     height: 80px;
-    filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8
-}
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8
+}*/
 
 #left-area {
     position: absolute;
     left: 25px;
     top: 12px;
     //border: 1px solid rgba(51, 51, 51, 0.2);
-   // box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    // box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
     z-index: 200;
 }
 
@@ -109,9 +115,10 @@ body {
 }
 
 #right-tools a {
+    padding: 14px 0 13px;
     border-right: 1px solid #E6E6E6;
     display: inline-block;
-    height: 50px;  
+    height: 50px;
     width: 60px;
     overflow: hidden;
     cursor: pointer;
@@ -124,7 +131,7 @@ body {
 
 #right-tools a span {
     display: block;
-	font-size: small;
+    font-size: small;
     text-align: center;
     line-height: 14px;
     margin-top: 35px;
@@ -155,43 +162,59 @@ body {
     background: #FFF url("../img/right_tool/right_tool_addpoints.png") no-repeat scroll 50% 35%;
 }
 
+#right-tools .tooldragbar {
+    position: absolute;
+    cursor: move;
+}
+
+#right-tools .tooldragup {
+    top: -5px;
+}
+
+.tooldragdown,
+.tooldragup {
+    height: 10px;
+    width: 100%;
+    left: 0;
+}
+
 #add-layout {
     background-color: #FFF;
     position: absolute;
-	top: 50%;
-	left: 50%;
+    top: 50%;
+    left: 50%;
     width: 600px;
     height: 440px;
-	margin-top: -240px;
-	margin-left: -300px;
+    margin-top: -240px;
+    margin-left: -300px;
     border: 1px solid rgba(51, 51, 51, 0.2);
-	border-radius: 5px;
+    border-radius: 5px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
     z-index: 100;
-	visibility: hidden;
+    visibility: hidden;
 }
 
 #btn-close-add-layout {
     position: absolute;
     //color: #FFF;
-	font-size: 20px;
+    font-size: 20px;
     width: 42px;
     height: 42px;
-	top: 0px;
+    top: 0px;
     margin-left: 554px;
-	//border: 1px solid rgba(51, 51, 51, 0.2);
+    //border: 1px solid rgba(51, 51, 51, 0.2);
     //box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-	//background-color: rgba(115, 182, 255, 0.9);
+    //background-color: rgba(115, 182, 255, 0.9);
 }
 
-.btn-modal-submit {  
+.btn-modal-submit {
     width: 20%;
 }
 
 #div-worning {
     position: absolute;
-	top: 94%;
-	width: 100%;
+    top: 94%;
+    width: 100%;
     height: 5%;
-	z-index: 100;
+    z-index: 100;
 }
