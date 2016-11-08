@@ -11,9 +11,9 @@ body {
 }
 
 
-/* -----------室内布防图相关样式--------------------*/
+/* -----------背景地图相关样式--------------------*/
 
-.map_big {
+.map-big {
     height: 100%;
     width: 100%;
     float: left;
@@ -60,66 +60,17 @@ body {
 }
 
 
-/* -----------谷歌地图相关样式--------------------*/
+/* -----------小地图相关样式--------------------*/
 
-.map_small {
+.map-small {
     width: 25%;
     height: 25%;
     margin-top: 0px;
     position: absolute;
-    //right: 0;
     bottom: 0;
     border: 2px solid #dddddd;
     background-color: #ffffff;
     z-index: 1;
-}
-
-.toolarea {
-    background-color: #FFF;
-    position: absolute;
-    border: 1px solid rgba(51, 51, 51, 0.2);
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-
-/* -----------信息显示区相关样式--------------------*/
-
-#map-info {
-    width: 350px;
-    height: 400px;
-    margin: 6px;
-    padding: 5px;
-    right: 0;
-    z-index: 300;
-}
-
-#panel-map-info,
-#panel-node-list {
-    position: absolute;
-    left: 0;
-    top: 25px;
-    width: 330px;
-    height: 330px;
-    margin: 10px;
-    overflow-x: auto;
-}
-
-#panel-node-list {
-    visibility: hidden;
-}
-
-.map-info-indicators {
-    cursor: pointer;
-    position: absolute;
-    left: 161px;
-    bottom: 0;
-    color: #337AB7;
-}
-
-#map-info-title {
-    font-size: 14px;
-    font-weight: bold;
-    color: #337AB7;
 }
 
 
@@ -155,20 +106,20 @@ body {
     z-index: 301;
 }
 
-#map-search .search-header {
+#map-search .map-search-header {
     border: 1px solid rgba(51, 51, 51, 0.2);
     height: 45px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-#map-search .search-header img {
+#map-search .map-search-header img {
     margin: 2px;
     width: 40px;
     height: 40px;
     vertical-align: top;
 }
 
-#map-search .search-header input {
+#map-search .map-search-header input {
     border: 0px;
     height: 40px;
     width: 244px;
@@ -190,11 +141,11 @@ body {
     opacity: 0.7;
 }
 
-#map-search #btn-search {
+#map-search #map-search-btn {
     background: #FFF url("../img/search.png") no-repeat scroll 50% 35%;
 }
 
-.search-panel {
+#map-search-panel {
     margin-top: 3px;
     height: 350px;
     border: 1px solid rgba(51, 51, 51, 0.2);
@@ -203,53 +154,120 @@ body {
 }
 
 
-/* -----------工具栏相关样式--------------------*/
+/* -----------信息显示区相关样式--------------------*/
 
-
-/*.dragable {
-    width: 200px;
-    height: 50px;
+#map-info {
+    width: 350px;
+    height: 400px;
+    margin: 6px;
+    padding: 5px;
+    right: 0;
     background-color: #FFF;
     position: absolute;
     border: 1px solid rgba(51, 51, 51, 0.2);
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-    z-index: 600;
+    z-index: 300;
 }
 
-.dragable .dragbar {
+#map-info-base,
+#map-info-node {
     position: absolute;
-    cursor: move;
-}
-
-.dragup {
-    top: -5px;
-}
-
-.dragdown {
-    bottom: -5px;
-}
-
-.dragdown,
-.dragup {
-    height: 10px;
-    width: 100%;
     left: 0;
+    top: 25px;
+    width: 330px;
+    height: 330px;
+    margin: 10px;
+    overflow-x: auto;
 }
 
-.dragleft {
-    left: -6px;
+#map-info-node {
+    visibility: hidden;
 }
 
-.dragright {
-    right: -6px;
+.map-info-indicators {
+    cursor: pointer;
+    position: absolute;
+    left: 161px;
+    bottom: 0;
+    color: #337AB7;
 }
 
-.dragleft,
-.dragright {
-    height: 100%;
-    width: 12px;
-    top: 0;
-}*/
+#map-info-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #337AB7;
+}
+
+
+/* -----------工具栏相关样式--------------------*/
+
+.map-tools,
+.map-tools-ring {
+    height: 256px;
+    position: absolute;
+    width: 256px;
+    right: 0;
+    bottom: 0;
+    margin: 40px;
+    z-index: 400;
+}
+
+.map-tools-ring {
+    background-color: rgba(51, 122, 183, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0.1) rotate(-270deg);
+    -moz-transform: scale(0.1) rotate(-270deg);
+    -transform: scale(0.1) rotate(-270deg);
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}
+
+.map-tools-open .map-tools-ring {
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(0);
+    -moz-transform: scale(1) rotate(0);
+    -transform: scale(1) rotate(0);
+}
+
+.map-tools-center {
+    background-color: rgba(51, 122, 183, 255);
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    color: white;
+    height: 80px;
+    left: 48px;
+    line-height: 80px;
+    position: absolute;
+    text-align: center;
+    top: 48px;
+    width: 80px;
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+    z-index: 401;
+}
+
+.map-tools-open .map-tools-center {
+    border-color: #337AB7;
+}
+
+.map-tools-menuItem {
+    border-radius: 50%;
+    color: white;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    position: absolute;
+    text-align: center;
+    width: 40px;
+}
 
 
 /*.controltool {

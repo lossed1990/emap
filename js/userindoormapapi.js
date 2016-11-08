@@ -232,7 +232,7 @@ function initIndoorMap() {
 
         overlays: [popup],
 
-        target: 'map_outdoor',
+        target: 'map-indoor',
         view: new ol.View({
             projection: projection,
             center: ol.extent.getCenter(extent),

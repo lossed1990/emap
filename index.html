@@ -7,14 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>地图</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/mapbox-gl.css">
-    <link rel="stylesheet" href="css/mapbox.css">
-    <link rel="stylesheet" href="css/ol.css">
+    <!--加载第三方样式库-->
+    <link rel="stylesheet" href="css/3rdpart/bootstrap.min.css">
+    <link rel="stylesheet" href="css/3rdpart/mapbox-gl.css">
+    <link rel='stylesheet' href='css/3rdpart/mapbox-gl-draw.css'>
+    <!--openlayer样式库-->
+    <link rel="stylesheet" href="css/3rdpart/ol.css">
+    <!--icon图标样式库-->
+    <link rel='stylesheet' href='css/3rdpart/font-awesome.min.css'>
+    <!--加载自定义样式库-->
     <link rel="stylesheet" href="css/app.css">
-    <link rel='stylesheet' href='css/mapbox-gl-draw.css'>
-    <link rel='stylesheet' href='css/font-awesome.min.css'>
-    <link rel="stylesheet" href="css/maptool.css" media="screen" type="text/css" />
+    <!--<link rel="stylesheet" href="css/maptool.css" media="screen" type="text/css" />-->
 </head>
 
 <body onload="initialize()">
@@ -40,44 +43,45 @@
             cursor: pointer;
             margin: 10px 0;
         }*/
-        
-        p {
+        /*p {
             font-family: 'Open Sans';
             margin: 0;
             font-size: 13px;
-        }
+        }*/
     </style>
-    <div id="map_indoor" class="map_big">
+
+    <!--室内地图-->
+    <div class="map-small" id="map-indoor">
+        <!--室内地图marker弹出框-->
         <div id="popup"></div>
     </div>
-    <div id="map_outdoor" class="map_small"></div>
 
-    <div class="circle">
-        <div class="ring">
-            <a class="menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
-            <a class="menuItem icon-retweet icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
-            <a class="menuItem icon-map-marker icon-2x" title="手动标记" onclick="exchangeMouseCursor()"></a>
-            <a class="menuItem icon-paper-clip icon-2x" title="批量标注" onclick="test()"></a>
-            <a class="menuItem icon-fullscreen icon-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
-            <a class="menuItem icon-beaker icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
-            <a class="menuItem icon-eye-close icon-2x" title="隐藏小地图" onclick="hideOrShowSmallMap()"></a>
-            <a class="menuItem icon-paper-clip icon-2x" title="图层信息" onclick="showMapInfo()"></a>
+    <!--室外地图-->
+    <div class="map-big" id="map-outdoor"></div>
+
+    <!--检索区-->
+    <div id="map-search">
+        <div class="map-search-header">
+            <img src="img/logo.JPG">
+            <input id="map-search-input" type="text" placeholder="搜索图层">
+            <a id="map-search-btn" data-cnzz="搜索"></a>
         </div>
-        <a href="#" class="center icon-th icon-2x"></a>
+        <div id="map-search-panel">
+        </div>
     </div>
 
     <!--图层信息显示区-->
-    <div id="map-info" class="toolarea">
-
-        <button id="map-info-close" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div id="map-info">
+        <!--标题-->
+        <button class="close" id="map-info-close" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <p id="map-info-title">&nbsp;⏩&nbsp;图层信息</p>
-
-        <div id="panel-map-info">
+        <!--地图信息-->
+        <div id="map-info-base">
             <p>当前室外地图信息</p>
             <p>当前室内图层信息</p>
         </div>
-
-        <div id="panel-node-list">
+        <!--节点列表-->
+        <div id="map-info-node">
             <table class="table table-bordered">
                 <tr class="info">
                     <th>节点名称</th>
@@ -129,66 +133,26 @@
                 </tr>
             </table>
         </div>
-
         <!-- tab切换按钮-->
         <div class="map-info-indicators">
-            <a id="index-map-info" class="icon-circle" title="图层信息"></a>
-            <a id="index-node-list" class="icon-circle-blank" title="节点列表"></a>
+            <a class="icon-circle" id="map-info-indicators-base" title="图层信息"></a>
+            <a class="icon-circle-blank" id="map-info-indicators-node" title="节点列表"></a>
         </div>
-
-        <!--<div id="carousel-map-info" class="carousel slide">
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-map-info" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-map-info" data-slide-to="1"></li>
-            </ol>
-
-            <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img src="img/map.jpg" alt="...">
-                    <div class="carousel-caption">
-                        <p>这是图层信息显示区</p>
-                        <p>当前显示图层：总行1楼</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="" alt="">
-                    <div class="carousel-caption">
-                        <table table table-bordered table-striped>
-                            <tr class="info">
-                                <th>节点名称</th>
-                                <th>节点类型</th>
-                            </tr>
-                            <tr>
-                                <td>节点1</td>
-                                <td>类型1</td>
-                            </tr>
-                            <tr>
-                                <td>节点2</td>
-                                <td>类型2</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>-->
-
-
     </div>
 
-    <!--检索区-->
-    <div id="map-search">
-
-        <div class="search-header">
-            <img src="img/logo.JPG">
-            <input id="map-search-input" type="text" placeholder="搜索图层">
-            <a id="btn-search" data-cnzz="搜索"></a>
-
-            <!--<span class="glyphicon glyphicon-search"></span>-->
+    <!--工具栏区-->
+    <div class="map-tools">
+        <div class="map-tools-ring">
+            <a class="map-tools-menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
+            <a class="map-tools-menuItem icon-retweet icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem icon-map-marker icon-2x" title="手动标记" onclick="exchangeMouseCursor()"></a>
+            <a class="map-tools-menuItem icon-paper-clip icon-2x" title="批量标注" onclick="test()"></a>
+            <a class="map-tools-menuItem icon-fullscreen icon-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
+            <a class="map-tools-menuItem icon-beaker icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem icon-eye-close icon-2x" title="隐藏小地图" onclick="hideOrShowSmallMap()"></a>
+            <a class="map-tools-menuItem icon-paper-clip icon-2x" title="图层信息" onclick="showMapInfo()"></a>
         </div>
-
-        <div class="search-panel">
-
-        </div>
+        <a class="map-tools-center icon-th icon-2x"></a>
     </div>
 
 

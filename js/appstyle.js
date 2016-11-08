@@ -1,97 +1,83 @@
 //=====图层信息显示区相关界面事件处理=====
-/** 关闭按钮 */
-$("#map-info-close").click(function() {
-    $("#map-info").css("visibility", "hidden");
-    $("#panel-map-info").css("visibility", "hidden");
-    $("#panel-node-list").css("visibility", "hidden");
-});
-
-/** 信息区移动 */
+/**信息区移动事件*/
 $("#map-info").draggable({ containment: "body", scroll: false, cursor: "move" });
 
-/** 切换信息区内容 */
-$("#index-map-info").click(function() {
-    $("#index-map-info").removeClass("icon-circle-blank");
-    $("#index-map-info").addClass("icon-circle");
-    $("#index-node-list").removeClass("icon-circle");
-    $("#index-node-list").addClass("icon-circle-blank");
-
-    $("#panel-map-info").css("visibility", "visible");
-    $("#panel-node-list").css("visibility", "hidden");
-
-    $("#map-info-title").html("&nbsp;⏩&nbsp;图层信息");
+/**关闭按钮点击事件*/
+$("#map-info-close").click(function() {
+    $("#map-info").css("visibility", "hidden");
+    $("#map-info-base").css("visibility", "hidden");
+    $("#map-info-node").css("visibility", "hidden");
 });
 
-$("#index-node-list").click(function() {
-    $("#index-node-list").removeClass("icon-circle-blank");
-    $("#index-node-list").addClass("icon-circle");
-    $("#index-map-info").removeClass("icon-circle");
-    $("#index-map-info").addClass("icon-circle-blank");
-
-    $("#panel-map-info").css("visibility", "hidden");
-    $("#panel-node-list").css("visibility", "visible");
-
+/**tab切换按钮点击事件*/
+$("#map-info-indicators-base").click(function() {
+    //更换icon
+    $("#map-info-indicators-base").removeClass("icon-circle-blank");
+    $("#map-info-indicators-base").addClass("icon-circle");
+    $("#map-info-indicators-node").removeClass("icon-circle");
+    $("#map-info-indicators-node").addClass("icon-circle-blank");
+    //隐藏panel
+    $("#map-info-base").css("visibility", "visible");
+    $("#map-info-node").css("visibility", "hidden");
+    //修改title
+    $("#map-info-title").html("&nbsp;⏩&nbsp;图层信息");
+});
+$("#map-info-indicators-node").click(function() {
+    //更换icon
+    $("#map-info-indicators-node").removeClass("icon-circle-blank");
+    $("#map-info-indicators-node").addClass("icon-circle");
+    $("#map-info-indicators-base").removeClass("icon-circle");
+    $("#map-info-indicators-base").addClass("icon-circle-blank");
+    //隐藏panel
+    $("#map-info-base").css("visibility", "hidden");
+    $("#map-info-node").css("visibility", "visible");
+    //修改title
     $("#map-info-title").html("&nbsp;⏩&nbsp;节点列表");
 });
 
 
 //=====检索区相关界面事件处理=====
-
-
-/** 检索区移动 */
+/**检索区移动事件*/
 $("#map-search").draggable({ containment: "body", scroll: false, cursor: "move" });
-
+/**检索输入框点击事件*/
 $("#map-search-input").click(function() {
     $("#map-search").css("height", "400px");
-    $(".search-panel").css("visibility", "visible");
+    $("#map-search-panel").css("visibility", "visible");
 });
-
-$("#btn-search").click(function() {
+/**检索按钮点击事件*/
+$("#map-search-btn").click(function() {
     $("#map-search").css("height", "400px");
-    $(".search-panel").css("visibility", "visible");
+    $("#map-search-panel").css("visibility", "visible");
 });
-
-
-// $("#map-search").focusout(function() {
-
-//     $("#map-search").mousedown(function(e) {
-
-//         $(".search-panel").css("visibility", "hidden");
-//     });
-
-// });
-var bIn = false;
-
-$("#map-search").mouseleave(function() {
-    bIn = false;
-});
-
-$("#map-search").mouseenter(function() {
-    bIn = true;
-});
-
-$("body").mousedown(function() {
-    if (!bIn) {
-        $("#map-search").css("height", "45px");
-        $(".search-panel").css("visibility", "hidden");
-    }
-});
-
+/**判断是否需要隐藏检索区域*/
+(function() {
+    var bIn = false;
+    $("#map-search").mouseleave(function() { bIn = false; });
+    $("#map-search").mouseenter(function() { bIn = true; });
+    $("body").mousedown(function() {
+        if (!bIn) {
+            $("#map-search").css("height", "45px");
+            $("#map-search-panel").css("visibility", "hidden");
+        }
+    });
+}())
 
 
 //=====工具栏区相关界面事件处理=====
-var items = document.querySelectorAll('.menuItem');
+/**初始化工具栏菜单*/
+(function() {
+    var items = document.querySelectorAll('.map-tools-menuItem');
+    for (var i = 0, l = items.length; i < l; i++) {
+        items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+        items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+    }
 
-for (var i = 0, l = items.length; i < l; i++) {
-    items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+    /**工具栏菜单按钮点击事件*/
+    document.querySelector('.map-tools-center').onclick = function(e) {
+        e.preventDefault();
+        document.querySelector('.map-tools').classList.toggle('map-tools-open');
+    }
 
-    items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-}
-
-document.querySelector('.center').onclick = function(e) {
-    e.preventDefault();
-    document.querySelector('.circle').classList.toggle('open');
-}
-
-/** 工具栏移动 */
-$(".circle").draggable({ containment: "body", scroll: false, cursor: "move" });
+    /**工具栏移动*/
+    $(".map-tools").draggable({ containment: "body", scroll: false, cursor: "move" });
+}())

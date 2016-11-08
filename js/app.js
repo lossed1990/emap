@@ -44,15 +44,15 @@ function initialize() {
  * 通过修改所属css类完成
  */
 function exchangeMapPosition() {
-    var classname = document.getElementById('map_indoor').className;
+    var classname = document.getElementById('map-indoor').className;
 
-    document.getElementById('map_indoor').className = document.getElementById('map_outdoor').className;
-    document.getElementById('map_outdoor').className = classname;
+    document.getElementById('map-indoor').className = document.getElementById('map-outdoor').className;
+    document.getElementById('map-outdoor').className = classname;
 
     //交换显示值，以防交换时小地图被隐藏
-    var visible = document.getElementById('map_indoor').style.visibility;
-    document.getElementById('map_indoor').style.visibility = document.getElementById('map_outdoor').style.visibility;
-    document.getElementById('map_outdoor').style.visibility = visible;
+    var visible = document.getElementById('map-indoor').style.visibility;
+    document.getElementById('map-indoor').style.visibility = document.getElementById('map-outdoor').style.visibility;
+    document.getElementById('map-outdoor').style.visibility = visible;
 
     //此处注意触发一个窗口大小改变事件，用于地图引擎的重新加载，否则地图将会出现异常
     var resizeEvent = document.createEvent("HTMLEvents");
@@ -66,18 +66,18 @@ function exchangeMapPosition() {
  * 通过修改所属css类完成
  */
 function hideOrShowSmallMap() {
-    if ($(".map_small").css("visibility") == "hidden") {
-        $(".map_small").css("visibility", "visible");
+    if ($(".map-small").css("visibility") == "hidden") {
+        $(".map-small").css("visibility", "visible");
         //更换icon
-        $(".icon-eye-open").attr("title", "隐藏小地图");
-        $(".icon-eye-open").addClass("icon-eye-close");
-        $(".icon-eye-open").removeClass("icon-eye-open");
+        $(".map-tools-ring .icon-eye-open").attr("title", "隐藏小地图");
+        $(".map-tools-ring .icon-eye-open").addClass("icon-eye-close");
+        $(".map-tools-ring .icon-eye-open").removeClass("icon-eye-open");
     } else {
-        $(".map_small").css("visibility", "hidden");
+        $(".map-small").css("visibility", "hidden");
         //更换icon
-        $(".icon-eye-close").attr("title", "显示小地图");
-        $(".icon-eye-close").addClass("icon-eye-open");
-        $(".icon-eye-close").removeClass("icon-eye-close");
+        $(".map-tools-ring .icon-eye-close").attr("title", "显示小地图");
+        $(".map-tools-ring .icon-eye-close").addClass("icon-eye-open");
+        $(".map-tools-ring .icon-eye-close").removeClass("icon-eye-close");
     }
 }
 
@@ -100,9 +100,9 @@ function exchangeMouseCursor() {
 function showMapInfo() {
     $("#map-info").css("visibility", "visible");
 
-    if ($(".icon-circle").attr("id") == "index-node-list") {
-        $("#panel-node-list").css("visibility", "visible");
+    if ($(".map-info-indicators .icon-circle").attr("id") == "map-info-indicators-node") {
+        $("#map-info-node").css("visibility", "visible");
     } else {
-        $("#panel-map-info").css("visibility", "visible");
+        $("#map-info-base").css("visibility", "visible");
     }
 }

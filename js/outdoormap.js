@@ -158,8 +158,8 @@ var OutDoorMap = {
         map.initMap = function() {
             g_bLoadMarkers = false;
             g_oOutdoormap = new mapboxgl.Map({
-                container: 'map_indoor', // container id
-                style: 'style.json', //stylesheet location
+                container: 'map-outdoor', // container id
+                style: 'mapstyle/style.json', //stylesheet location
                 center: [121.4, 31.2], // starting position
                 zoom: 12 // starting zoom
             });
