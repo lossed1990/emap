@@ -79,19 +79,67 @@ body {
     position: absolute;
     border: 1px solid rgba(51, 51, 51, 0.2);
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-    cursor: move;
 }
 
 
 /* -----------信息显示区相关样式--------------------*/
 
 #map-info {
-    width: 25%;
-    height: 25%;
+    width: 350px;
+    height: 400px;
+    margin: 6px;
     padding: 5px;
     right: 0;
-    z-index: 600;
+    z-index: 300;
 }
+
+#panel-map-info,
+#panel-node-list {
+    position: absolute;
+    left: 0;
+    top: 25px;
+    width: 330px;
+    height: 330px;
+    margin: 10px;
+    overflow-x: auto;
+}
+
+#panel-node-list {
+    visibility: hidden;
+}
+
+.map-info-indicators {
+    cursor: pointer;
+    position: absolute;
+    left: 161px;
+    bottom: 0;
+    color: #337AB7;
+}
+
+#map-info-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #337AB7;
+}
+
+
+/*#carousel-map-info {
+    width: 330px;
+    height: 380px;
+    margin: 10px;
+}
+
+.carousel-indicators .active {
+    background-color: #337AB7;
+}
+
+.carousel-indicators li {
+    border: 1px solid #337AB7;
+}
+
+.carousel-inner .item table {
+    color: black;
+}*/
 
 
 /* -----------检索区相关样式--------------------*/
@@ -104,7 +152,7 @@ body {
     background-color: #FFF;
     position: absolute;
     box-shadow: 0px;
-    z-index: 700;
+    z-index: 301;
 }
 
 #map-search .search-header {
@@ -157,7 +205,8 @@ body {
 
 /* -----------工具栏相关样式--------------------*/
 
-.dragable {
+
+/*.dragable {
     width: 200px;
     height: 50px;
     background-color: #FFF;
@@ -200,7 +249,7 @@ body {
     height: 100%;
     width: 12px;
     top: 0;
-}
+}*/
 
 
 /*.controltool {

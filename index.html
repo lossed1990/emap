@@ -54,23 +54,125 @@
 
     <div class="circle">
         <div class="ring">
-            <a href="" class="menuItem icon-exchange icon-2x"></a>
-            <a href="" class="menuItem icon-exchange icon-2x"></a>
-            <a href="" class="menuItem icon-map-marker icon-2x"></a>
-            <a href="" class="menuItem icon-paper-clip icon-2x"></a>
-            <a href="" class="menuItem icon-fullscreen icon-2x"></a>
-            <a href="" class="menuItem icon-beaker icon-2x"></a>
-            <a href="" class="menuItem icon-repeat icon-2x"></a>
-            <a href="" class="menuItem icon-lock icon-2x"></a>
+            <a class="menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
+            <a class="menuItem icon-retweet icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
+            <a class="menuItem icon-map-marker icon-2x" title="手动标记" onclick="exchangeMouseCursor()"></a>
+            <a class="menuItem icon-paper-clip icon-2x" title="批量标注" onclick="test()"></a>
+            <a class="menuItem icon-fullscreen icon-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
+            <a class="menuItem icon-beaker icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
+            <a class="menuItem icon-eye-close icon-2x" title="隐藏小地图" onclick="hideOrShowSmallMap()"></a>
+            <a class="menuItem icon-paper-clip icon-2x" title="图层信息" onclick="showMapInfo()"></a>
         </div>
         <a href="#" class="center icon-th icon-2x"></a>
     </div>
 
     <!--图层信息显示区-->
     <div id="map-info" class="toolarea">
+
         <button id="map-info-close" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p>这是图层信息显示区</p>
-        <p>当前显示图层：总行1楼</p>
+        <p id="map-info-title">&nbsp;⏩&nbsp;图层信息</p>
+
+        <div id="panel-map-info">
+            <p>当前室外地图信息</p>
+            <p>当前室内图层信息</p>
+        </div>
+
+        <div id="panel-node-list">
+            <table class="table table-bordered">
+                <tr class="info">
+                    <th>节点名称</th>
+                    <th>节点类型</th>
+                </tr>
+                <tr>
+                    <td>节点1</td>
+                    <td>类型1</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+                <tr>
+                    <td>节点2</td>
+                    <td>类型2</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- tab切换按钮-->
+        <div class="map-info-indicators">
+            <a id="index-map-info" class="icon-circle" title="图层信息"></a>
+            <a id="index-node-list" class="icon-circle-blank" title="节点列表"></a>
+        </div>
+
+        <!--<div id="carousel-map-info" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-map-info" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-map-info" data-slide-to="1"></li>
+            </ol>
+
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="img/map.jpg" alt="...">
+                    <div class="carousel-caption">
+                        <p>这是图层信息显示区</p>
+                        <p>当前显示图层：总行1楼</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="" alt="">
+                    <div class="carousel-caption">
+                        <table table table-bordered table-striped>
+                            <tr class="info">
+                                <th>节点名称</th>
+                                <th>节点类型</th>
+                            </tr>
+                            <tr>
+                                <td>节点1</td>
+                                <td>类型1</td>
+                            </tr>
+                            <tr>
+                                <td>节点2</td>
+                                <td>类型2</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+
     </div>
 
     <!--检索区-->
@@ -99,24 +201,24 @@
     </div>-->
 
     <!-- Split button -->
-    <div id="left-area" class="btn-group">
+    <!--<div id="left-area" class="btn-group">
         <button type="button" class="btn btn-primary" onclick="requestGetIndoorMap()">室内地图</button>
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<span class="caret"></span>
 			<span class="sr-only">Toggle Dropdown</span>
 		  </button>
         <ul id="menu-indoor-area" class="dropdown-menu">
-            <!--
+          //
 			<li><a>网点1</a></li>
 			<li><a>网点2</a></li>
 			<li><a>网点3</a></li>
 			<li><a>网点4</a></li>
-          -->
+          //
         </ul>
-    </div>
+    </div>-->
 
 
-    <div id="right-tools">
+    <!--<div id="right-tools">
         <div class="tooldragbar tooldragup"></div>
         <div class="tooldragbar tooldragdown"></div>
         <div class="tooldragbar tooldragleft"></div>
@@ -131,7 +233,7 @@
             <span>批量标注</span>
         </a>
         <a class="locate-point" id="btn-hide-markers" data-cnzz="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()">
-            <!--removeAllMarkerOnIndoorMap()-->
+            //removeAllMarkerOnIndoorMap()
             <span>隐藏标注</span>
         </a>
         <a class="locate-point" id="btn-exchange-map" data-cnzz="交换地图" onclick="exchangeMapPosition()">
@@ -140,7 +242,7 @@
         <a class="locate-point" id="btn-show-smallmap" data-cnzz="图中图" onclick="hideOrShowSmallMap()">
             <span>图中图</span>
         </a>
-    </div>
+    </div>-->
     <div id="div-worning"></div>
 
     <!-- Modal -->

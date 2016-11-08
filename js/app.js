@@ -66,17 +66,18 @@ function exchangeMapPosition() {
  * 通过修改所属css类完成
  */
 function hideOrShowSmallMap() {
-    var smallMapDiv;
-    if (document.getElementById('map_outdoor').className === "map_small") {
-        smallMapDiv = document.getElementById('map_outdoor');
+    if ($(".map_small").css("visibility") == "hidden") {
+        $(".map_small").css("visibility", "visible");
+        //更换icon
+        $(".icon-eye-open").attr("title", "隐藏小地图");
+        $(".icon-eye-open").addClass("icon-eye-close");
+        $(".icon-eye-open").removeClass("icon-eye-open");
     } else {
-        smallMapDiv = document.getElementById('map_indoor');
-    }
-
-    if (smallMapDiv.style.visibility === "hidden") {
-        smallMapDiv.style.visibility = "visible"; //显示	
-    } else {
-        smallMapDiv.style.visibility = "hidden"; //隐藏
+        $(".map_small").css("visibility", "hidden");
+        //更换icon
+        $(".icon-eye-close").attr("title", "显示小地图");
+        $(".icon-eye-close").addClass("icon-eye-open");
+        $(".icon-eye-close").removeClass("icon-eye-close");
     }
 }
 
@@ -90,5 +91,18 @@ function exchangeMouseCursor() {
         wndObj[0].style.cursor = 'crosshair';
     } else {
         wndObj[0].style.cursor = 'auto';
+    }
+}
+
+/**
+ * @breif 显示图层信息界面
+ */
+function showMapInfo() {
+    $("#map-info").css("visibility", "visible");
+
+    if ($(".icon-circle").attr("id") == "index-node-list") {
+        $("#panel-node-list").css("visibility", "visible");
+    } else {
+        $("#panel-map-info").css("visibility", "visible");
     }
 }

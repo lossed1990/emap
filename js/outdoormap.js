@@ -158,21 +158,22 @@ var OutDoorMap = {
         map.initMap = function() {
             g_bLoadMarkers = false;
             g_oOutdoormap = new mapboxgl.Map({
-                container: 'map_outdoor', // container id
+                container: 'map_indoor', // container id
                 style: 'style.json', //stylesheet location
                 center: [121.4, 31.2], // starting position
                 zoom: 12 // starting zoom
             });
 
-            var draw = mapboxgl.Draw({
-                drawing: true,
-                displayControlsDefault: false,
-                controls: {
-                    polygon: true,
-                    trash: true
-                }
-            });
-            g_oOutdoormap.addControl(draw);
+            //区域绘制工具
+            // var draw = mapboxgl.Draw({
+            //     drawing: true,
+            //     displayControlsDefault: false,
+            //     controls: {
+            //         polygon: true,
+            //         trash: true
+            //     }
+            // });
+            // g_oOutdoormap.addControl(draw);
 
             // var calcButton = document.getElementById('calculate');
             // calcButton.onclick = function() {
@@ -192,22 +193,23 @@ var OutDoorMap = {
             g_oOutdoormap.on('load', function() {
                 map.addMarkers(map.m_geojson_MarkersData_onload);
 
-                g_oOutdoormap.addSource("ID_IMAGE", {
-                    "type": "image",
-                    "url": "img/map.jpg",
-                    "coordinates": [
-                        [121.4, 31.2],
-                        [125.516, 31.2],
-                        [125.516, 33.936],
-                        [121.4, 33.936]
-                    ]
-                });
+                //绘制图片
+                // g_oOutdoormap.addSource("ID_IMAGE", {
+                //     "type": "image",
+                //     "url": "img/map.jpg",
+                //     "coordinates": [
+                //         [121.4, 31.2],
+                //         [125.516, 31.2],
+                //         [125.516, 33.936],
+                //         [121.4, 33.936]
+                //     ]
+                // });
 
-                g_oOutdoormap.addLayer({
-                    "id": "ID_LAYER_IMAGE",
-                    "type": "raster",
-                    "source": "ID_IMAGE"
-                });
+                // g_oOutdoormap.addLayer({
+                //     "id": "ID_LAYER_IMAGE",
+                //     "type": "raster",
+                //     "source": "ID_IMAGE"
+                // });
             });
 
             //监听鼠标移动消息，进行marker信息框的弹出                                                           

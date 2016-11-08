@@ -10,36 +10,36 @@ var app = {};
  */
 app.Drag = function() {
 
-  ol.interaction.Pointer.call(this, {
-    handleDownEvent: app.Drag.prototype.handleDownEvent,
-    handleDragEvent: app.Drag.prototype.handleDragEvent,
-    handleMoveEvent: app.Drag.prototype.handleMoveEvent,
-    handleUpEvent: app.Drag.prototype.handleUpEvent
-  });
+    ol.interaction.Pointer.call(this, {
+        handleDownEvent: app.Drag.prototype.handleDownEvent,
+        handleDragEvent: app.Drag.prototype.handleDragEvent,
+        handleMoveEvent: app.Drag.prototype.handleMoveEvent,
+        handleUpEvent: app.Drag.prototype.handleUpEvent
+    });
 
-  /**
-   * @type {ol.Pixel}
-   * @private
-   */
-  this.coordinate_ = null;
+    /**
+     * @type {ol.Pixel}
+     * @private
+     */
+    this.coordinate_ = null;
 
-  /**
-   * @type {string|undefined}
-   * @private
-   */
-  this.cursor_ = 'pointer';
+    /**
+     * @type {string|undefined}
+     * @private
+     */
+    this.cursor_ = 'pointer';
 
-  /**
-   * @type {ol.Feature}
-   * @private
-   */
-  this.feature_ = null;
+    /**
+     * @type {ol.Feature}
+     * @private
+     */
+    this.feature_ = null;
 
-  /**
-   * @type {string|undefined}
-   * @private
-   */
-  this.previousCursor_ = undefined;
+    /**
+     * @type {string|undefined}
+     * @private
+     */
+    this.previousCursor_ = undefined;
 
 };
 ol.inherits(app.Drag, ol.interaction.Pointer);
@@ -51,19 +51,19 @@ ol.inherits(app.Drag, ol.interaction.Pointer);
  * @return {boolean} `true` to start the drag sequence.
  */
 app.Drag.prototype.handleDownEvent = function(evt) {
-  var map = evt.map;
+    var map = evt.map;
 
-  var feature = map.forEachFeatureAtPixel(evt.pixel,
-      function(feature) {
-        return feature;
-      });
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+        function(feature) {
+            return feature;
+        });
 
-  if (feature) {
-    this.coordinate_ = evt.coordinate;
-    this.feature_ = feature;
-  }
+    if (feature) {
+        this.coordinate_ = evt.coordinate;
+        this.feature_ = feature;
+    }
 
-  return !!feature;
+    return !!feature;
 };
 
 
@@ -71,18 +71,18 @@ app.Drag.prototype.handleDownEvent = function(evt) {
  * @param {ol.MapBrowserEvent} evt Map browser event.
  */
 app.Drag.prototype.handleDragEvent = function(evt) {
-  var deltaX = evt.coordinate[0] - this.coordinate_[0];
-  var deltaY = evt.coordinate[1] - this.coordinate_[1];
+    var deltaX = evt.coordinate[0] - this.coordinate_[0];
+    var deltaY = evt.coordinate[1] - this.coordinate_[1];
 
-  var geometry = /** @type {ol.geom.SimpleGeometry} */
-      (this.feature_.getGeometry());
-  geometry.translate(deltaX, deltaY);
+    var geometry = /** @type {ol.geom.SimpleGeometry} */
+        (this.feature_.getGeometry());
+    geometry.translate(deltaX, deltaY);
 
-  this.coordinate_[0] = evt.coordinate[0];
-  this.coordinate_[1] = evt.coordinate[1];
-  
-  var log = "this.coordinate_[0]:" + this.coordinate_[0] + ",this.coordinate_[1]" + this.coordinate_[1] + ",x:" + deltaX + ",y:" + deltaY;
-  console.log(log);
+    this.coordinate_[0] = evt.coordinate[0];
+    this.coordinate_[1] = evt.coordinate[1];
+
+    var log = "this.coordinate_[0]:" + this.coordinate_[0] + ",this.coordinate_[1]" + this.coordinate_[1] + ",x:" + deltaX + ",y:" + deltaY;
+    console.log(log);
 };
 
 
@@ -91,23 +91,23 @@ app.Drag.prototype.handleDragEvent = function(evt) {
  * @param {ol.MapBrowserEvent} evt Event.
  */
 app.Drag.prototype.handleMoveEvent = function(evt) {
-  if (this.cursor_) {
-    var map = evt.map;
-    var feature = map.forEachFeatureAtPixel(evt.pixel,
-        function(feature) {
-          return feature;
-        });
-    var element = evt.map.getTargetElement();
-    if (feature) {
-      if (element.style.cursor != this.cursor_) {
-        this.previousCursor_ = element.style.cursor;
-        element.style.cursor = this.cursor_;
-      }
-    } else if (this.previousCursor_ !== undefined) {
-      element.style.cursor = this.previousCursor_;
-      this.previousCursor_ = undefined;
+    if (this.cursor_) {
+        var map = evt.map;
+        var feature = map.forEachFeatureAtPixel(evt.pixel,
+            function(feature) {
+                return feature;
+            });
+        var element = evt.map.getTargetElement();
+        if (feature) {
+            if (element.style.cursor != this.cursor_) {
+                this.previousCursor_ = element.style.cursor;
+                element.style.cursor = this.cursor_;
+            }
+        } else if (this.previousCursor_ !== undefined) {
+            element.style.cursor = this.previousCursor_;
+            this.previousCursor_ = undefined;
+        }
     }
-  }
 };
 
 
@@ -115,9 +115,9 @@ app.Drag.prototype.handleMoveEvent = function(evt) {
  * @return {boolean} `false` to stop the drag sequence.
  */
 app.Drag.prototype.handleUpEvent = function() {
-  this.coordinate_ = null;
-  this.feature_ = null;
-  return false;
+    this.coordinate_ = null;
+    this.feature_ = null;
+    return false;
 };
 
 
@@ -128,7 +128,7 @@ app.Drag.prototype.handleUpEvent = function() {
 //==============================================
 
 var map; //地图对象
-var m_currentlayoutid;  //当前图层ID
+var m_currentlayoutid; //当前图层ID
 //var m_markerList = new Array();
 
 //图层对象，可加载不同的图片，达到切换图层的效果 
@@ -187,23 +187,23 @@ var projection = new ol.proj.Projection({
 //marker资源对象及marker图层对象
 var marker_source_node = new ol.source.Vector({});
 var marker_layer_node = new ol.layer.Vector({
-	source: marker_source_node
+    source: marker_source_node
 });
 
 //marker弹出式说明框
 var element = document.getElementById('popup');
 var popup = new ol.Overlay({
-	element: element,
-	positioning: 'bottom-center',
-	stopEvent: false,
-	offset: [-5, -10]
+    element: element,
+    positioning: 'bottom-center',
+    stopEvent: false,
+    offset: [-5, -10]
 });
-	
+
 /**
  * @breif 初始化布防图
  */
 function initIndoorMap() {
-   
+
 
     map = new ol.Map({
         //controls: ol.control.defaults({
@@ -220,8 +220,8 @@ function initIndoorMap() {
 
         interactions: ol.interaction.defaults().extend([
             new ol.interaction.DragRotateAndZoom() //按住shift可以旋转
-			//new app.Drag()
-			
+            //new app.Drag()
+
         ]),
 
         layers: [
@@ -229,10 +229,10 @@ function initIndoorMap() {
             marker_layer_node
             //marker_layer_cameranode
         ],
-		
-		overlays: [popup],
 
-        target: 'map_indoor',
+        overlays: [popup],
+
+        target: 'map_outdoor',
         view: new ol.View({
             projection: projection,
             center: ol.extent.getCenter(extent),
@@ -240,134 +240,134 @@ function initIndoorMap() {
             maxZoom: 4
         })
     });
-	
+
     map.on('click', function(evt) {
-        var feature = map.forEachFeatureAtPixel(evt.pixel,function(feature) {
-              return feature;
-            });
+        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return feature;
+        });
         if (feature) {
-            var coordinates = feature.getGeometry().getCoordinates();	
-            popup.setPosition(coordinates);	
-			
-            var options = {  
-		        'animation': true,
+            var coordinates = feature.getGeometry().getCoordinates();
+            popup.setPosition(coordinates);
+
+            var options = {
+                'animation': true,
                 'placement': 'top',
-			    'html': true,
-	            'content': "您点击了：" + feature.get('name') 
-	        }; 
-            $(element).popover(options);		  	
+                'html': true,
+                'content': "您点击了：" + feature.get('name')
+            };
+            $(element).popover(options);
             $(element).popover('show');
         } else {
             $(element).popover('destroy');
-			
-			//如果此处没有marker，并且处于添加图标状态，则弹出新建图标窗口
-			if(isAddMarkerState()){
-                var coordinate = evt.coordinate;  //获取地图内坐标	   
-		        //alert(evt.pixel);    //浏览器坐标
-		        //alert(coordinate);   //地图内坐标	     
-                showAddNoteModal(m_currentlayoutid,coordinate);			
-		    }
+
+            //如果此处没有marker，并且处于添加图标状态，则弹出新建图标窗口
+            if (isAddMarkerState()) {
+                var coordinate = evt.coordinate; //获取地图内坐标	   
+                //alert(evt.pixel);    //浏览器坐标
+                //alert(coordinate);   //地图内坐标	     
+                showAddNoteModal(m_currentlayoutid, coordinate);
+            }
         }
     });
 
     //鼠标移动事件，若经过marker，则改变鼠标形状；若存在弹出说明框，关闭之
-    map.on('pointermove', function(e) {         
+    map.on('pointermove', function(e) {
         var pixel = map.getEventPixel(e.originalEvent);
         var hit = map.hasFeatureAtPixel(pixel);
-		map.getTargetElement().style.cursor = hit ? 'pointer' : '';	
-		
-		$(element).popover('destroy');
+        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+
+        $(element).popover('destroy');
     });
 }
 
 /**
  * @brief 判断是否加载土层及鼠标状态，决定是否点击添加marker
  */
-function isAddMarkerState(){
-    if(layer.getSource()){
-        var wndObj=document.getElementsByTagName("body");
-	    var currentState = wndObj[0].style.cursor;
-	    if(currentState === 'crosshair'){
-	        return true;
-	    }
-	}
-	
-	return false;
+function isAddMarkerState() {
+    if (layer.getSource()) {
+        var wndObj = document.getElementsByTagName("body");
+        var currentState = wndObj[0].style.cursor;
+        if (currentState === 'crosshair') {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
-* @breif 添加marker
-*/
-function addMarkerOnIndoorMap(markername,type,point){
-    
-	var marker_style = new ol.style.Style({
-	    image: new ol.style.Icon({
-			src: 'img/node_marker/0.png'   //此处不支持gif，解决办法http://www.2cto.com/kf/201511/450555.html
-		}),
-		text: new ol.style.Text({
-			text: markername,
-			textBaseline: 'top',
-			offsetY: 20,
-			fill: new ol.style.Fill({color: [255,0,0,255]})
-		})
-	});
-	
-	//marker_layer_node.setStyle(marker_style);
-	//map.addLayer(marker_layer_node);
-	
-	//m_markerList.push(marker_layer_node);
-	
-	//创建位置对象
+ * @breif 添加marker
+ */
+function addMarkerOnIndoorMap(markername, type, point) {
+
+    var marker_style = new ol.style.Style({
+        image: new ol.style.Icon({
+            src: 'img/node_marker/0.png' //此处不支持gif，解决办法http://www.2cto.com/kf/201511/450555.html
+        }),
+        text: new ol.style.Text({
+            text: markername,
+            textBaseline: 'top',
+            offsetY: 20,
+            fill: new ol.style.Fill({ color: [255, 0, 0, 255] })
+        })
+    });
+
+    //marker_layer_node.setStyle(marker_style);
+    //map.addLayer(marker_layer_node);
+
+    //m_markerList.push(marker_layer_node);
+
+    //创建位置对象
     var pointFeature = new ol.Feature({
         geometry: new ol.geom.Point(point),
-		 name: markername
+        name: markername
     });
-	pointFeature.setStyle(marker_style);
-	
-	//添加marker
+    pointFeature.setStyle(marker_style);
+
+    //添加marker
     marker_source_node.addFeature(pointFeature);
 }
 
 /**
-* @breif 清除所有marker
-*/
-function removeAllMarkerOnIndoorMap(){
+ * @breif 清除所有marker
+ */
+function removeAllMarkerOnIndoorMap() {
     //marker_source_hostnode.clear(true);
     //marker_source_cameranode.clear(true);
-	marker_source_node.clear(true);
-	
-	//for(var i=0; i < m_markerList.length; ++i) {
-	//    map.removeLayer(m_markerList[i]);
-	//}
-	
-	//m_markerList = [];
+    marker_source_node.clear(true);
+
+    //for(var i=0; i < m_markerList.length; ++i) {
+    //    map.removeLayer(m_markerList[i]);
+    //}
+
+    //m_markerList = [];
 }
 
 /**
  * @brief 设置地图图层 
  */
-function setMap(filepath,width,height){
-    
-	if(!filepath || filepath == '') {
-	    layer.setSource(null);
-	}
-	
-	var fileurl = "indoormapfile/" + filepath;
+function setMap(filepath, width, height) {
+
+    if (!filepath || filepath == '') {
+        layer.setSource(null);
+    }
+
+    var fileurl = "indoormapfile/" + filepath;
 
     var sourcemap = new ol.source.ImageStatic({
-   
-		url: fileurl, 
-		projection: projection,
-		imageExtent: [0, 0, width, height] //图片大小
-	});
-	
+
+        url: fileurl,
+        projection: projection,
+        imageExtent: [0, 0, width, height] //图片大小
+    });
+
     layer.setSource(sourcemap);
 }
 
 /**
  * @brief 设置当前图层ID
  */
-function setCurrentLayoutId(id){
+function setCurrentLayoutId(id) {
     m_currentlayoutid = id;
 }
 
