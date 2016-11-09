@@ -77,7 +77,7 @@
     },
     "sources": {
         "composite": {
-            "url": "osm2vectortiles.json",
+            "url": "mapstyle/osm2vectortiles.json",
             "type": "vector"
         }
     },
