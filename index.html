@@ -144,13 +144,13 @@
     <div class="map-tools">
         <div class="map-tools-ring">
             <a class="map-tools-menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
-            <a class="map-tools-menuItem icon-retweet icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
-            <a class="map-tools-menuItem icon-map-marker icon-2x" title="手动标记" onclick="exchangeMouseCursor()"></a>
+            <a class="map-tools-menuItem icon-retweet icon-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem icon-map-marker icon-2x" title="进入标注节点状态" onclick="g_oMapTool.changeMapState()"></a>
             <a class="map-tools-menuItem icon-paper-clip icon-2x" title="批量标注" onclick="test()"></a>
             <a class="map-tools-menuItem icon-fullscreen icon-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
-            <a class="map-tools-menuItem icon-beaker icon-2x" title="交换地图" onclick="exchangeMapPosition()"></a>
-            <a class="map-tools-menuItem icon-eye-close icon-2x" title="隐藏小地图" onclick="hideOrShowSmallMap()"></a>
-            <a class="map-tools-menuItem icon-paper-clip icon-2x" title="图层信息" onclick="showMapInfo()"></a>
+            <a class="map-tools-menuItem icon-beaker icon-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem icon-eye-close icon-2x" title="隐藏小地图" onclick="g_oMapTool.changeSmallMapVisibility()"></a>
+            <a class="map-tools-menuItem icon-paper-clip icon-2x" title="图层信息" onclick="g_oMapTool.showMapInfo()"></a>
         </div>
         <a class="map-tools-center icon-th icon-2x"></a>
     </div>
@@ -341,12 +341,13 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/mapbox-gl.js"></script>
     <script src="js/ol.js"></script>
-    <script src="js/app.js"></script>
+
     <!--<script src="js/appstyle.js"></script>-->
     <script src="js/mapbox.js"></script>
     <script type="text/javascript" src="js/usergooglemapapi.js"></script>
     <script type="text/javascript" src="js/userindoormapapi.js"></script>
     <script type="text/javascript" src="js/outdoormap.js"></script>
+    <script src="js/app.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.12.1/mapbox-gl-draw.js'></script>
     <!--<script src="js/area_tool.js"></script>

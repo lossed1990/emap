@@ -57,6 +57,7 @@
     },
     "info":{
         "id": "XXXX",
+        "layerid": "",          //所属图层ID 
         "submap": "true",       //是否存在室内布防图
         "cmsid": "102",         //平台中心号
         "thirdpartid":"111",    //第三方系统内的编号

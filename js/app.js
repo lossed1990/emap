@@ -34,30 +34,9 @@ function getXMLHTTPRequest() {
 function initMaps() {
     g_oOutDoorMap.initMap();
     initIndoorMap();
+
+    g_oMapTool.initTool();
 }
-
-
-
-
-
-/**
- * @breif 改变鼠标样式,用以显示标记状态
- */
-function exchangeMouseCursor() {
-    var wndObj = document.getElementsByTagName("body");
-    var currentState = wndObj[0].style.cursor;
-    if (currentState !== 'crosshair') {
-        wndObj[0].style.cursor = 'crosshair';
-    } else {
-        wndObj[0].style.cursor = 'auto';
-    }
-}
-
-
-
-
-
-
 
 //=====图层信息显示区相关界面事件处理=====
 /**信息区移动事件*/
@@ -125,76 +104,202 @@ $("#map-search-btn").click(function() {
 
 
 //=====工具栏区相关界面事件处理=====
-/**初始化工具栏菜单*/
-(function() {
-    var items = document.querySelectorAll('.map-tools-menuItem');
-    for (var i = 0, l = items.length; i < l; i++) {
-        items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-        items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-    }
-
-    /**工具栏菜单按钮点击事件*/
-    document.querySelector('.map-tools-center').onclick = function(e) {
-        e.preventDefault();
-        document.querySelector('.map-tools').classList.toggle('map-tools-open');
-    }
-
-    /**工具栏移动*/
-    $(".map-tools").draggable({ containment: "body", scroll: false, cursor: "move" });
-}());
-
 /**
- * @breif 隐藏|显示小地图
- *
- * 通过修改所属css类完成
+ * @brief 地图工具对象
  */
-function hideOrShowSmallMap() {
-    if ($(".map-small").css("visibility") == "hidden") {
-        $(".map-small").css("visibility", "visible");
-        //更换icon
-        $(".map-tools-ring .icon-eye-open").attr("title", "隐藏小地图");
-        $(".map-tools-ring .icon-eye-open").addClass("icon-eye-close");
-        $(".map-tools-ring .icon-eye-open").removeClass("icon-eye-open");
-    } else {
-        $(".map-small").css("visibility", "hidden");
-        //更换icon
-        $(".map-tools-ring .icon-eye-close").attr("title", "显示小地图");
-        $(".map-tools-ring .icon-eye-close").addClass("icon-eye-open");
-        $(".map-tools-ring .icon-eye-close").removeClass("icon-eye-close");
+var MapTool = {
+    createNew: function() {
+        var tool = {};
+
+        tool.initTool = function() {
+            var items = document.querySelectorAll('.map-tools-menuItem');
+            for (var i = 0, l = items.length; i < l; i++) {
+                items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+                items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+            }
+
+            /**工具栏菜单按钮点击事件*/
+            document.querySelector('.map-tools-center').onclick = function(e) {
+                e.preventDefault();
+                document.querySelector('.map-tools').classList.toggle('map-tools-open');
+            }
+
+            /**工具栏移动*/
+            $(".map-tools").draggable({ containment: "body", scroll: false, cursor: "move" });
+        }
+
+        tool.changeSmallMapVisibility = function() {
+            if ($(".map-small").css("visibility") == "hidden") {
+                $(".map-small").css("visibility", "visible");
+                //更换icon
+                $(".map-tools-ring .icon-eye-open").attr("title", "隐藏小地图");
+                $(".map-tools-ring .icon-eye-open").addClass("icon-eye-close");
+                $(".map-tools-ring .icon-eye-open").removeClass("icon-eye-open");
+            } else {
+                $(".map-small").css("visibility", "hidden");
+                //更换icon
+                $(".map-tools-ring .icon-eye-close").attr("title", "显示小地图");
+                $(".map-tools-ring .icon-eye-close").addClass("icon-eye-open");
+                $(".map-tools-ring .icon-eye-close").removeClass("icon-eye-close");
+            }
+        }
+
+        tool.showMapInfo = function() {
+            $("#map-info").css("visibility", "visible");
+
+            if ($(".map-info-indicators .icon-circle").attr("id") == "map-info-indicators-node") {
+                $("#map-info-node").css("visibility", "visible");
+            } else {
+                $("#map-info-base").css("visibility", "visible");
+            }
+        }
+
+        tool.exchangeMapPosition = function() {
+            var classname = document.getElementById('map-indoor').className;
+
+            document.getElementById('map-indoor').className = document.getElementById('map-outdoor').className;
+            document.getElementById('map-outdoor').className = classname;
+
+            //交换显示值，以防交换时小地图被隐藏
+            var visible = document.getElementById('map-indoor').style.visibility;
+            document.getElementById('map-indoor').style.visibility = document.getElementById('map-outdoor').style.visibility;
+            document.getElementById('map-outdoor').style.visibility = visible;
+
+            //此处注意触发一个窗口大小改变事件，用于地图引擎的重新加载，否则地图将会出现异常
+            var resizeEvent = document.createEvent("HTMLEvents");
+            resizeEvent.initEvent("resize", false, true);
+            window.dispatchEvent(resizeEvent);
+        }
+
+        tool.changeMapState = function() {
+            if ($(".map-tools-ring .icon-map-marker").length != 0) {
+                //更换icon
+                $(".map-tools-ring .icon-map-marker").attr("title", "返回显示地图状态");
+                $(".map-tools-ring .icon-map-marker").addClass("icon-globe");
+                $(".map-tools-ring .icon-map-marker").removeClass("icon-map-marker");
+
+                g_oOutDoorMap.enterAddMarkerState();
+            } else {
+                //更换icon
+                tool.restoreMarkerToolIcon();
+                g_oOutDoorMap.leaveAddMarkerState();
+            }
+        }
+
+        tool.restoreMarkerToolIcon = function() {
+            $(".map-tools-ring .icon-globe").attr("title", "进入标注节点状态");
+            $(".map-tools-ring .icon-globe").addClass("icon-map-marker");
+            $(".map-tools-ring .icon-globe").removeClass("icon-globe");
+        }
+
+        return tool;
     }
-}
+};
 
-/**
- * @breif 显示图层信息界面
- */
-function showMapInfo() {
-    $("#map-info").css("visibility", "visible");
+//地图工具全局对象
+var g_oMapTool = MapTool.createNew();
 
-    if ($(".map-info-indicators .icon-circle").attr("id") == "map-info-indicators-node") {
-        $("#map-info-node").css("visibility", "visible");
-    } else {
-        $("#map-info-base").css("visibility", "visible");
-    }
-}
+// /**初始化工具栏菜单*/
+// (function() {
+//     var items = document.querySelectorAll('.map-tools-menuItem');
+//     for (var i = 0, l = items.length; i < l; i++) {
+//         items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+//         items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+//     }
 
-/**
- * @breif 交换地图位置
- *
- * 通过修改所属css类完成
- */
-function exchangeMapPosition() {
-    var classname = document.getElementById('map-indoor').className;
+//     /**工具栏菜单按钮点击事件*/
+//     document.querySelector('.map-tools-center').onclick = function(e) {
+//         e.preventDefault();
+//         document.querySelector('.map-tools').classList.toggle('map-tools-open');
+//     }
 
-    document.getElementById('map-indoor').className = document.getElementById('map-outdoor').className;
-    document.getElementById('map-outdoor').className = classname;
+//     /**工具栏移动*/
+//     $(".map-tools").draggable({ containment: "body", scroll: false, cursor: "move" });
+// }());
 
-    //交换显示值，以防交换时小地图被隐藏
-    var visible = document.getElementById('map-indoor').style.visibility;
-    document.getElementById('map-indoor').style.visibility = document.getElementById('map-outdoor').style.visibility;
-    document.getElementById('map-outdoor').style.visibility = visible;
+// /**
+//  * @breif 隐藏|显示小地图
+//  *
+//  * 通过修改所属css类完成
+//  */
+// function hideOrShowSmallMap() {
+//     if ($(".map-small").css("visibility") == "hidden") {
+//         $(".map-small").css("visibility", "visible");
+//         //更换icon
+//         $(".map-tools-ring .icon-eye-open").attr("title", "隐藏小地图");
+//         $(".map-tools-ring .icon-eye-open").addClass("icon-eye-close");
+//         $(".map-tools-ring .icon-eye-open").removeClass("icon-eye-open");
+//     } else {
+//         $(".map-small").css("visibility", "hidden");
+//         //更换icon
+//         $(".map-tools-ring .icon-eye-close").attr("title", "显示小地图");
+//         $(".map-tools-ring .icon-eye-close").addClass("icon-eye-open");
+//         $(".map-tools-ring .icon-eye-close").removeClass("icon-eye-close");
+//     }
+// }
 
-    //此处注意触发一个窗口大小改变事件，用于地图引擎的重新加载，否则地图将会出现异常
-    var resizeEvent = document.createEvent("HTMLEvents");
-    resizeEvent.initEvent("resize", false, true);
-    window.dispatchEvent(resizeEvent);
+// /**
+//  * @breif 显示图层信息界面
+//  */
+// function showMapInfo() {
+//     $("#map-info").css("visibility", "visible");
+
+//     if ($(".map-info-indicators .icon-circle").attr("id") == "map-info-indicators-node") {
+//         $("#map-info-node").css("visibility", "visible");
+//     } else {
+//         $("#map-info-base").css("visibility", "visible");
+//     }
+// }
+
+// /**
+//  * @breif 交换地图位置
+//  *
+//  * 通过修改所属css类完成
+//  */
+// function exchangeMapPosition() {
+//     var classname = document.getElementById('map-indoor').className;
+
+//     document.getElementById('map-indoor').className = document.getElementById('map-outdoor').className;
+//     document.getElementById('map-outdoor').className = classname;
+
+//     //交换显示值，以防交换时小地图被隐藏
+//     var visible = document.getElementById('map-indoor').style.visibility;
+//     document.getElementById('map-indoor').style.visibility = document.getElementById('map-outdoor').style.visibility;
+//     document.getElementById('map-outdoor').style.visibility = visible;
+
+//     //此处注意触发一个窗口大小改变事件，用于地图引擎的重新加载，否则地图将会出现异常
+//     var resizeEvent = document.createEvent("HTMLEvents");
+//     resizeEvent.initEvent("resize", false, true);
+//     window.dispatchEvent(resizeEvent);
+// }
+
+// /**
+//  * @breif 改变鼠标样式,用以显示标记状态
+//  */
+// function exchangeMouseCursor() {
+//     // var wndObj = document.getElementsByTagName("body");
+//     // var currentState = wndObj[0].style.cursor;
+//     // if (currentState !== 'crosshair') {
+//     //     wndObj[0].style.cursor = 'crosshair';
+//     // } else {
+//     //     wndObj[0].style.cursor = 'auto';
+//     // }
+//     // if ($("body").css("cursor") != "crosshair") {
+//     //     $("body").css("cursor", "crosshair");
+//     // } else {
+//     //     $("body").css("cursor", "auto");
+//     // }
+
+//     // if ($("#map-outdoor").css("cursor") != "crosshair") {
+//     //     $("#map-outdoor").css("cursor", "crosshair");
+//     // } else {
+//     //     $("#map-outdoor").css("cursor", "auto");
+//     // }
+//     g_oOutDoorMap.changeMouseStyle("crosshair");
+// }
+
+function showAddNoteModal(id, position) {
+    $("#markerlayoutid").val(id);
+    $("#markerposition").val(position);
+    $('#add-note-modal').modal('show');
 }

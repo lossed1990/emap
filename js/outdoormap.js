@@ -134,19 +134,21 @@ var OutDoorMap = {
 
         //=====私有成员变量=====
         //mapboxgl地图对象
-        var g_oOutdoormap = null;
+        var m_oGLMap = null;
         //是否已加载图标
-        var g_bLoadMarkers = false;
+        var m_bLoadMarkers = false;
+        //是否进入添加图标状态
+        var m_bAddMarkerState = false;
         //marker数据对象
-        var g_oCommonMarkersData = {
+        var m_oCommonMarkersData = {
             "type": "FeatureCollection",
             "features": []
         };
 
-        var g_oFlashMarkersData = null;
+        var m_oFlashMarkersData = null;
 
         //marker弹出框对象
-        var g_oMarkerPopup = new mapboxgl.Popup({
+        var m_oMarkerPopup = new mapboxgl.Popup({
             closeButton: false,
             closeOnClick: false
         });
@@ -156,8 +158,8 @@ var OutDoorMap = {
          * @breif 初始化mapboxgl地图
          */
         map.initMap = function() {
-            g_bLoadMarkers = false;
-            g_oOutdoormap = new mapboxgl.Map({
+            m_bLoadMarkers = false;
+            m_oGLMap = new mapboxgl.Map({
                 container: 'map-outdoor', // container id
                 style: 'mapstyle/style.json', //stylesheet location
                 center: [121.4, 31.2], // starting position
@@ -173,7 +175,7 @@ var OutDoorMap = {
             //         trash: true
             //     }
             // });
-            // g_oOutdoormap.addControl(draw);
+            // m_oGLMap.addControl(draw);
 
             // var calcButton = document.getElementById('calculate');
             // calcButton.onclick = function() {
@@ -190,11 +192,11 @@ var OutDoorMap = {
             // };
 
             //启动后，加载marker
-            g_oOutdoormap.on('load', function() {
+            m_oGLMap.on('load', function() {
                 map.addMarkers(map.m_geojson_MarkersData_onload);
 
                 //绘制图片
-                // g_oOutdoormap.addSource("ID_IMAGE", {
+                // m_oGLMap.addSource("ID_IMAGE", {
                 //     "type": "image",
                 //     "url": "img/map.jpg",
                 //     "coordinates": [
@@ -205,7 +207,7 @@ var OutDoorMap = {
                 //     ]
                 // });
 
-                // g_oOutdoormap.addLayer({
+                // m_oGLMap.addLayer({
                 //     "id": "ID_LAYER_IMAGE",
                 //     "type": "raster",
                 //     "source": "ID_IMAGE"
@@ -213,32 +215,79 @@ var OutDoorMap = {
             });
 
             //监听鼠标移动消息，进行marker信息框的弹出                                                           
-            g_oOutdoormap.on('mousemove', function(e) {
-                if (g_bLoadMarkers) {
-                    var features = g_oOutdoormap.queryRenderedFeatures(e.point, { layers: ['ID_LAYER_MARKERS'] });
+            m_oGLMap.on('mousemove', function(e) {
+                if (m_bLoadMarkers) {
+                    var features = m_oGLMap.queryRenderedFeatures(e.point, { layers: ['ID_LAYER_MARKERS'] });
 
                     if (!features.length) {
                         //恢复鼠标形状,并关闭marker信息框
-                        //g_oOutdoormap.getCanvas().style.cursor = '';
-                        g_oMarkerPopup.remove();
+                        if (!m_bAddMarkerState) {
+                            m_oGLMap.getCanvas().style.cursor = "";
+                        } else {
+                            m_oGLMap.getCanvas().style.cursor = "crosshair";
+                        }
+                        m_oMarkerPopup.remove();
                         return;
                     }
                     //改变鼠标形状
-                    g_oOutdoormap.getCanvas().style.cursor = 'pointer';
+                    m_oGLMap.getCanvas().style.cursor = 'pointer';
 
                     //弹出信息框
-                    g_oMarkerPopup.setLngLat(features[0].geometry.coordinates)
+                    m_oMarkerPopup.setLngLat(features[0].geometry.coordinates)
                         .setHTML(features[0].properties.description)
-                        .addTo(g_oOutdoormap);
+                        .addTo(m_oGLMap);
                 }
             });
 
             //监听鼠标点击消息，进行marker点击，居中处理
-            g_oOutdoormap.on('click', function(e) {
-                if (g_bLoadMarkers) {
-                    var features = g_oOutdoormap.queryRenderedFeatures(e.point, { layers: ['ID_LAYER_MARKERS'] });
+            m_oGLMap.on('click', function(e) {
+                if (m_bLoadMarkers) {
+                    var features = m_oGLMap.queryRenderedFeatures(e.point, { layers: ['ID_LAYER_MARKERS'] });
                     if (features.length) {
-                        g_oOutdoormap.flyTo({ center: features[0].geometry.coordinates });
+                        m_oGLMap.flyTo({ center: features[0].geometry.coordinates });
+                        return;
+                    }
+                }
+
+                if (m_bAddMarkerState) {
+                    var position = "(" + e.lngLat.lng + "," + e.lngLat.lat + ")";
+
+                    var markerArray = [];
+                    var markerObject = {
+                        "type": "Feature",
+                        "properties": {
+                            "title": "car",
+                            "icon": "car",
+                            "message": "car",
+                            "description": "car"
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": []
+                        },
+                        "sysinfo": {
+                            "id": "XXXX",
+                            "cmsid": "102",
+                            "thirdpartid": "111",
+                            "thirdparttype": "1",
+                            "extendinfo": ""
+                        }
+                    };
+                    markerObject.geometry.coordinates[0] = e.lngLat.lng;
+                    markerObject.geometry.coordinates[1] = e.lngLat.lat;
+                    markerArray[0] = markerObject;
+                    map.addMarkers(markerArray);
+
+                    showAddNoteModal(0, position);
+                }
+            });
+
+            //监听鼠标右键点击消息，退出新增节点状态
+            m_oGLMap.on('mouseup', function(e) {
+                if (2 == e.originalEvent.button) {
+                    map.leaveAddMarkerState();
+                    if (g_oMapTool) {
+                        g_oMapTool.restoreMarkerToolIcon();
                     }
                 }
             });
@@ -252,7 +301,7 @@ var OutDoorMap = {
          * @param features 节点数组
          */
         map.addMarkers = function(features) {
-            g_oCommonMarkersData.features = g_oCommonMarkersData.features.concat(features);
+            m_oCommonMarkersData.features = m_oCommonMarkersData.features.concat(features);
             refreshMarkers();
         };
 
@@ -260,30 +309,47 @@ var OutDoorMap = {
          * @breif 移除markers
          */
         map.removeMarkers = function() {
-            g_oCommonMarkersData.features.length = 0;
+            m_oCommonMarkersData.features.length = 0;
             refreshMarkers();
         };
+
+        map.enterAddMarkerState = function() {
+            m_bAddMarkerState = true;
+            m_oGLMap.getCanvas().style.cursor = "crosshair";
+        }
+
+        map.leaveAddMarkerState = function() {
+            m_bAddMarkerState = false;
+            m_oGLMap.getCanvas().style.cursor = "";
+        }
+
+        // /**
+        //  * @breif 改变鼠标形状
+        //  */
+        // map.changeMouseStyle = function(style) {
+        //     m_oGLMap.getCanvas().style.cursor = style;
+        // }
 
         //=====私有接口方法=====
         /**
          * @breif 刷新markers
          */
         function refreshMarkers() {
-            if (g_bLoadMarkers) {
-                g_oOutdoormap.removeLayer('ID_LAYER_MARKERS');
-                g_oOutdoormap.removeSource('ID_SOURCE_COMMON_MARKERS');
-                g_bLoadMarkers = false;
+            if (m_bLoadMarkers) {
+                m_oGLMap.removeLayer('ID_LAYER_MARKERS');
+                m_oGLMap.removeSource('ID_SOURCE_COMMON_MARKERS');
+                m_bLoadMarkers = false;
             }
 
-            if (g_oCommonMarkersData) {
+            if (m_oCommonMarkersData) {
                 //新建marker资源数据
-                g_oOutdoormap.addSource("ID_SOURCE_COMMON_MARKERS", {
+                m_oGLMap.addSource("ID_SOURCE_COMMON_MARKERS", {
                     "type": "geojson",
-                    "data": g_oCommonMarkersData
+                    "data": m_oCommonMarkersData
                 });
 
                 //新建地图图层，显示marker
-                g_oOutdoormap.addLayer({
+                m_oGLMap.addLayer({
                     "id": "ID_LAYER_MARKERS",
                     "type": "symbol", //https://www.mapbox.com/mapbox-gl-style-spec/#layers-symbol
                     "source": "ID_SOURCE_COMMON_MARKERS",
@@ -302,7 +368,7 @@ var OutDoorMap = {
                     }
                 });
 
-                g_bLoadMarkers = true;
+                m_bLoadMarkers = true;
             }
         };
 
