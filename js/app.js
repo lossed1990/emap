@@ -132,15 +132,15 @@ var MapTool = {
             if ($(".map-small").css("visibility") == "hidden") {
                 $(".map-small").css("visibility", "visible");
                 //更换icon
-                $(".map-tools-ring .icon-eye-open").attr("title", "隐藏小地图");
-                $(".map-tools-ring .icon-eye-open").addClass("icon-eye-close");
-                $(".map-tools-ring .icon-eye-open").removeClass("icon-eye-open");
+                $(".map-tools-ring .fa-eye").attr("title", "隐藏小地图");
+                $(".map-tools-ring .fa-eye").addClass("fa-eye-slash");
+                $(".map-tools-ring .fa-eye").removeClass("fa-eye");
             } else {
                 $(".map-small").css("visibility", "hidden");
                 //更换icon
-                $(".map-tools-ring .icon-eye-close").attr("title", "显示小地图");
-                $(".map-tools-ring .icon-eye-close").addClass("icon-eye-open");
-                $(".map-tools-ring .icon-eye-close").removeClass("icon-eye-close");
+                $(".map-tools-ring .fa-eye-slash").attr("title", "显示小地图");
+                $(".map-tools-ring .fa-eye-slash").addClass("fa-eye");
+                $(".map-tools-ring .fa-eye-slash").removeClass("fa-eye-slash");
             }
         }
 
@@ -172,11 +172,11 @@ var MapTool = {
         }
 
         tool.changeMapState = function() {
-            if ($(".map-tools-ring .icon-map-marker").length != 0) {
+            if ($(".map-tools-ring .fa-map-marker").length != 0) {
                 //更换icon
-                $(".map-tools-ring .icon-map-marker").attr("title", "返回显示地图状态");
-                $(".map-tools-ring .icon-map-marker").addClass("icon-globe");
-                $(".map-tools-ring .icon-map-marker").removeClass("icon-map-marker");
+                $(".map-tools-ring .fa-map-marker").attr("title", "返回显示地图状态");
+                $(".map-tools-ring .fa-map-marker").addClass("fa-globe");
+                $(".map-tools-ring .fa-map-marker").removeClass("fa-map-marker");
 
                 g_oOutDoorMap.enterAddMarkerState();
             } else {
@@ -187,9 +187,9 @@ var MapTool = {
         }
 
         tool.restoreMarkerToolIcon = function() {
-            $(".map-tools-ring .icon-globe").attr("title", "进入标注节点状态");
-            $(".map-tools-ring .icon-globe").addClass("icon-map-marker");
-            $(".map-tools-ring .icon-globe").removeClass("icon-globe");
+            $(".map-tools-ring .fa-globe").attr("title", "进入标注节点状态");
+            $(".map-tools-ring .fa-globe").addClass("fa-map-marker");
+            $(".map-tools-ring .fa-globe").removeClass("fa-globe");
         }
 
         return tool;
@@ -226,15 +226,15 @@ var g_oMapTool = MapTool.createNew();
 //     if ($(".map-small").css("visibility") == "hidden") {
 //         $(".map-small").css("visibility", "visible");
 //         //更换icon
-//         $(".map-tools-ring .icon-eye-open").attr("title", "隐藏小地图");
-//         $(".map-tools-ring .icon-eye-open").addClass("icon-eye-close");
-//         $(".map-tools-ring .icon-eye-open").removeClass("icon-eye-open");
+//         $(".map-tools-ring .fa-eye").attr("title", "隐藏小地图");
+//         $(".map-tools-ring .fa-eye").addClass("fa-eye-slash");
+//         $(".map-tools-ring .fa-eye").removeClass("fa-eye");
 //     } else {
 //         $(".map-small").css("visibility", "hidden");
 //         //更换icon
-//         $(".map-tools-ring .icon-eye-close").attr("title", "显示小地图");
-//         $(".map-tools-ring .icon-eye-close").addClass("icon-eye-open");
-//         $(".map-tools-ring .icon-eye-close").removeClass("icon-eye-close");
+//         $(".map-tools-ring .fa-eye-slash").attr("title", "显示小地图");
+//         $(".map-tools-ring .fa-eye-slash").addClass("fa-eye");
+//         $(".map-tools-ring .fa-eye-slash").removeClass("fa-eye-slash");
 //     }
 // }
 

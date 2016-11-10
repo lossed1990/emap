@@ -14,7 +14,9 @@
     <!--openlayer样式库-->
     <link rel="stylesheet" href="css/3rdpart/ol.css">
     <!--icon图标样式库-->
-    <link rel='stylesheet' href='css/3rdpart/font-awesome.min.css'>
+    <!--<link rel='stylesheet' href='css/3rdpart/font-awesome.min.css'>-->
+    <link rel="stylesheet" href="css/3rdpart/font-awesome/css/font-awesome.min.css">
+
     <!--加载自定义样式库-->
     <link rel="stylesheet" href="css/app.css">
     <!--<link rel="stylesheet" href="css/maptool.css" media="screen" type="text/css" />-->
@@ -143,16 +145,18 @@
     <!--工具栏区-->
     <div class="map-tools">
         <div class="map-tools-ring">
-            <a class="map-tools-menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
-            <a class="map-tools-menuItem icon-retweet icon-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
-            <a class="map-tools-menuItem icon-map-marker icon-2x" title="进入标注节点状态" onclick="g_oMapTool.changeMapState()"></a>
-            <a class="map-tools-menuItem icon-paper-clip icon-2x" title="批量标注" onclick="test()"></a>
-            <a class="map-tools-menuItem icon-fullscreen icon-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
-            <a class="map-tools-menuItem icon-beaker icon-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
-            <a class="map-tools-menuItem icon-eye-close icon-2x" title="隐藏小地图" onclick="g_oMapTool.changeSmallMapVisibility()"></a>
-            <a class="map-tools-menuItem icon-paper-clip icon-2x" title="图层信息" onclick="g_oMapTool.showMapInfo()"></a>
+            <!--<a class="map-tools-menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>-->
+
+            <a class="map-tools-menuItem fa fa-map-o fa-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
+            <a class="map-tools-menuItem fa fa-refresh fa-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem fa fa-map-marker fa-2x" title="进入标注节点状态" onclick="g_oMapTool.changeMapState()"></a>
+            <a class="map-tools-menuItem fa fa-clock-o fa-2x" title="批量标注" onclick="test()"></a>
+            <a class="map-tools-menuItem fa fa-cog fa-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
+            <a class="map-tools-menuItem fa fa-pencil fa-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem fa fa-eye-slash fa-2x" title="隐藏小地图" onclick="g_oMapTool.changeSmallMapVisibility()"></a>
+            <a class="map-tools-menuItem fa fa-newspaper-o fa-2x" title="图层信息" onclick="g_oMapTool.showMapInfo()"></a>
         </div>
-        <a class="map-tools-center icon-th icon-2x"></a>
+        <a class="map-tools-center fa fa-th fa-2x" title="工具菜单"></a>
     </div>
 
 

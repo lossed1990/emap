@@ -355,6 +355,8 @@ var OutDoorMap = {
                     "source": "ID_SOURCE_COMMON_MARKERS",
                     "layout": {
                         "icon-image": "{icon}-15",
+                        //"symbol-placement": "line",
+
                         "text-field": "{title}",
                         "text-font": ["yahei"],
                         "text-offset": [0, 0.6],
@@ -363,6 +365,7 @@ var OutDoorMap = {
                     },
                     'paint': { //https://www.mapbox.com/mapbox-gl-style-spec/#paint_symbol
                         'text-color': '#FF0000',
+                        'icon-color': '#FF0000',
                         'text-halo-width': 2,
                         'text-halo-color': '#00FF00'
                     }
