@@ -199,107 +199,70 @@ var MapTool = {
 //地图工具全局对象
 var g_oMapTool = MapTool.createNew();
 
-// /**初始化工具栏菜单*/
-// (function() {
-//     var items = document.querySelectorAll('.map-tools-menuItem');
-//     for (var i = 0, l = items.length; i < l; i++) {
-//         items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-//         items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-//     }
 
-//     /**工具栏菜单按钮点击事件*/
-//     document.querySelector('.map-tools-center').onclick = function(e) {
-//         e.preventDefault();
-//         document.querySelector('.map-tools').classList.toggle('map-tools-open');
-//     }
 
-//     /**工具栏移动*/
-//     $(".map-tools").draggable({ containment: "body", scroll: false, cursor: "move" });
-// }());
+//显示添加节点dialog，后期考虑放入tool对象中
+/**
+ * @breif 显示添加节点dialog
+ * 
+ * @param id   所属图层ID 0-室外地图
+ * @param lng  经度
+ * @param lat  纬度
+ */
+function showAddNoteModal(id, lng, lat) {
+    var position = "(" + lng + "," + lat + ")";
+    // $("#markerlayoutid").val(id);
+    $("#map-dialog-node-position").val(position);
+    $("#map-dialog-node-position").attr({ "lng": lng, "lat": lat });
+    $('#map-dialog-node').modal('show');
+}
 
-// /**
-//  * @breif 隐藏|显示小地图
-//  *
-//  * 通过修改所属css类完成
-//  */
-// function hideOrShowSmallMap() {
-//     if ($(".map-small").css("visibility") == "hidden") {
-//         $(".map-small").css("visibility", "visible");
-//         //更换icon
-//         $(".map-tools-ring .fa-eye").attr("title", "隐藏小地图");
-//         $(".map-tools-ring .fa-eye").addClass("fa-eye-slash");
-//         $(".map-tools-ring .fa-eye").removeClass("fa-eye");
-//     } else {
-//         $(".map-small").css("visibility", "hidden");
-//         //更换icon
-//         $(".map-tools-ring .fa-eye-slash").attr("title", "显示小地图");
-//         $(".map-tools-ring .fa-eye-slash").addClass("fa-eye");
-//         $(".map-tools-ring .fa-eye-slash").removeClass("fa-eye-slash");
-//     }
-// }
 
-// /**
-//  * @breif 显示图层信息界面
-//  */
-// function showMapInfo() {
-//     $("#map-info").css("visibility", "visible");
+/**
+ * @brief 绑定节点类型选择下拉菜单事件
+ */
+$('#map-dialog-node-menutype').on('click', 'li', function() {
+    $("#map-dialog-node-type").val($(this).text());
+    $("#map-dialog-node-type").attr("icon", $(this).attr("icon"));
+});
 
-//     if ($(".map-info-indicators .icon-circle").attr("id") == "map-info-indicators-node") {
-//         $("#map-info-node").css("visibility", "visible");
-//     } else {
-//         $("#map-info-base").css("visibility", "visible");
-//     }
-// }
+$("#map-dialog-node-submit").click(function() {
+    if ($("#map-dialog-node-name").val() == "") {
+        var htmlinfo = fillErrorHtml("请输入节点名称");
+        $('#map-dialog-node-worning').html(htmlinfo);
+        return;
+    }
 
-// /**
-//  * @breif 交换地图位置
-//  *
-//  * 通过修改所属css类完成
-//  */
-// function exchangeMapPosition() {
-//     var classname = document.getElementById('map-indoor').className;
+    //获取参数，构造节点json对象
+    var markerObject = {
+        "type": "Feature",
+        "properties": {
+            "title": $("#map-dialog-node-name").val(),
+            "icon": $("#map-dialog-node-type").attr("icon"),
+            "description": $("#map-dialog-node-description").val()
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": []
+        },
+        "sysinfo": {
+            "id": "XXXX",
+            "cmsid": "102",
+            "thirdpartid": "111",
+            "thirdparttype": "1",
+            "extendinfo": ""
+        }
+    };
+    markerObject.geometry.coordinates[0] = $("#map-dialog-node-position").attr("lng");
+    markerObject.geometry.coordinates[1] = $("#map-dialog-node-position").attr("lat");
 
-//     document.getElementById('map-indoor').className = document.getElementById('map-outdoor').className;
-//     document.getElementById('map-outdoor').className = classname;
+    //调用室内地图接口，添加node
+    g_oOutDoorMap.addMarker(markerObject);
 
-//     //交换显示值，以防交换时小地图被隐藏
-//     var visible = document.getElementById('map-indoor').style.visibility;
-//     document.getElementById('map-indoor').style.visibility = document.getElementById('map-outdoor').style.visibility;
-//     document.getElementById('map-outdoor').style.visibility = visible;
+    $('#map-dialog-node').modal('hide');
+});
 
-//     //此处注意触发一个窗口大小改变事件，用于地图引擎的重新加载，否则地图将会出现异常
-//     var resizeEvent = document.createEvent("HTMLEvents");
-//     resizeEvent.initEvent("resize", false, true);
-//     window.dispatchEvent(resizeEvent);
-// }
-
-// /**
-//  * @breif 改变鼠标样式,用以显示标记状态
-//  */
-// function exchangeMouseCursor() {
-//     // var wndObj = document.getElementsByTagName("body");
-//     // var currentState = wndObj[0].style.cursor;
-//     // if (currentState !== 'crosshair') {
-//     //     wndObj[0].style.cursor = 'crosshair';
-//     // } else {
-//     //     wndObj[0].style.cursor = 'auto';
-//     // }
-//     // if ($("body").css("cursor") != "crosshair") {
-//     //     $("body").css("cursor", "crosshair");
-//     // } else {
-//     //     $("body").css("cursor", "auto");
-//     // }
-
-//     // if ($("#map-outdoor").css("cursor") != "crosshair") {
-//     //     $("#map-outdoor").css("cursor", "crosshair");
-//     // } else {
-//     //     $("#map-outdoor").css("cursor", "auto");
-//     // }
-//     g_oOutDoorMap.changeMouseStyle("crosshair");
-// }
-
-function showAddNoteModal(id, position) {
-    $("#markerlayoutid").val(id);
-    $("#markerposition").val(position);
-    $('#add-note-modal').modal('show');
+function fillErrorHtml(errorinfo) {
+    var htmlinfo = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>提示！</strong>" + errorinfo + "</div>";
+    return htmlinfo;
 }

@@ -31,7 +31,7 @@ var OutDoorMap = {
             "type": "Feature",
             "properties": {
                 "title": "marker",
-                "icon": "car",
+                "icon": "fa-plane",
                 "message": "marker",
                 //"iconSize": [22, 30],
                 "description": "marker"
@@ -241,44 +241,16 @@ var OutDoorMap = {
 
             //监听鼠标点击消息，进行marker点击，居中处理
             m_oGLMap.on('click', function(e) {
-                if (m_bLoadMarkers) {
-                    var features = m_oGLMap.queryRenderedFeatures(e.point, { layers: ['ID_LAYER_MARKERS'] });
-                    if (features.length) {
-                        m_oGLMap.flyTo({ center: features[0].geometry.coordinates });
-                        return;
-                    }
-                }
+                // if (m_bLoadMarkers) {
+                //     var features = m_oGLMap.queryRenderedFeatures(e.point, { layers: ['ID_LAYER_MARKERS'] });
+                //     if (features.length) {
+                //         m_oGLMap.flyTo({ center: features[0].geometry.coordinates });
+                //         return;
+                //     }
+                // }
 
                 if (m_bAddMarkerState) {
-                    var position = "(" + e.lngLat.lng + "," + e.lngLat.lat + ")";
-
-                    var markerArray = [];
-                    var markerObject = {
-                        "type": "Feature",
-                        "properties": {
-                            "title": "car",
-                            "icon": "car",
-                            "message": "car",
-                            "description": "car"
-                        },
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": []
-                        },
-                        "sysinfo": {
-                            "id": "XXXX",
-                            "cmsid": "102",
-                            "thirdpartid": "111",
-                            "thirdparttype": "1",
-                            "extendinfo": ""
-                        }
-                    };
-                    markerObject.geometry.coordinates[0] = e.lngLat.lng;
-                    markerObject.geometry.coordinates[1] = e.lngLat.lat;
-                    markerArray[0] = markerObject;
-                    map.addMarkers(markerArray);
-
-                    showAddNoteModal(0, position);
+                    showAddNoteModal(0, e.lngLat.lng, e.lngLat.lat);
                 }
             });
 
@@ -291,6 +263,42 @@ var OutDoorMap = {
                     }
                 }
             });
+        };
+
+        map.addMarker = function(marker) {
+            //添加图标        
+            var el = document.createElement('a');
+            $(el).addClass("btn btn-lg fa fa-2x")
+                .addClass(marker.properties.icon)
+                .attr({
+                    "href": "#",
+                    "tabindex": "0",
+                    "data-toggle": "popover",
+                    "data-placement": "top",
+                    "data-trigger": "focus",
+                    "title": marker.properties.title,
+                    "data-content": marker.properties.description
+                })
+                .css({
+                    "color": "#337AB7"
+                });
+
+            $(el).popover();
+
+            new mapboxgl.Marker(el, { offset: [-24, -23] }) //此处的偏移量建议不要轻易改动
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(m_oGLMap);
+
+            //添加名称  
+            var name = document.createElement('div');
+            $(name).html(marker.properties.title)
+                .css({
+                    "color": "#337AB7",
+                });
+
+            new mapboxgl.Marker(name, { offset: [-9, 10] }) //此处的偏移量建议不要轻易改动
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(m_oGLMap);
         };
 
         /**
@@ -354,7 +362,7 @@ var OutDoorMap = {
                     "type": "symbol", //https://www.mapbox.com/mapbox-gl-style-spec/#layers-symbol
                     "source": "ID_SOURCE_COMMON_MARKERS",
                     "layout": {
-                        "icon-image": "{icon}-15",
+                        "icon-image": "fa fa-plane fa-2x", //{icon}-15
                         //"symbol-placement": "line",
 
                         "text-field": "{title}",

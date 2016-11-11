@@ -275,65 +275,77 @@
         </div>
     </div>
 
-    <div class="modal fade" id="add-note-modal" tabindex="-1" role="dialog" aria-labelledby="add-note-modal-label">
+    <div class="modal fade" id="map-dialog-node" tabindex="-1" role="dialog" aria-labelledby="map-dialog-node-label">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="add-note-modal-label">新建节点</h4>
+                    <h4 class="modal-title" id="map-dialog-node-label">新建节点</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="add-note-form" class="form-horizontal" enctype="multipart/form-data" method="post" action="mapunit/configunit/add_indoor_marker.php">
-                        <input id="markerlayoutid" name="markerlayoutid" type="text" class="hidden" placeholder="所属图层编号" readonly="true">
+                    <div class="form-horizontal" id="map-dialog-node-form">
+                        <!--enctype="multipart/form-data" method="post" action=""-->
+                        <!--<input id="map-dialog-node-markerlayoutid" name="nodelayoutid" type="text" class="hidden" placeholder="所属图层编号" readonly="true">-->
                         <div class="form-group">
-                            <label for="markername" class="col-sm-2 control-label">节点名称</label>
+                            <label for="nodename" class="col-sm-2 control-label">节点名称</label>
                             <div class="col-sm-10">
-                                <input name="markername" type="text" class="form-control" id="markername" placeholder="节点名称">
+                                <input name="nodename" type="text" class="form-control" id="map-dialog-node-name" placeholder="节点名称">
                             </div>
                         </div>
                         <div class="form-group">
-                            <!--
-						<label for="markertype" class="col-sm-2 control-label">节点类型</label>
-						<div class="col-sm-10">
-							<input name="markertype" type="text" class="form-control" id="markertype" placeholder="节点类型">
-						</div>
-						-->
-                            <label for="markertype" class="col-sm-2 control-label">节点类型</label>
+                            <label for="nodetype" class="col-sm-2 control-label">节点类型</label>
                             <div class="col-sm-10">
                                 <div class="input-group ">
-                                    <input name="markertype" type="text" class="form-control" id="markertype" placeholder="节点类型" readonly="true">
+                                    <input name="nodetype" type="text" class="form-control" id="map-dialog-node-type" placeholder="节点类型" readonly="true">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择<span class="caret"></span></button>
-                                        <ul id="menu-note-type" class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="#">场所</a></li>
-                                            <li><a href="#">楼层</a></li>
-                                            <li><a href="#">虚拟设备</a></li>
+                                        <ul id="map-dialog-node-menutype" class="dropdown-menu dropdown-menu-right">
+                                            <li icon="fa-bank"><a href="#"><i class="fa fa-bank fa-fw"></i> 场所</a></li>
+                                            <li icon="fa-minus"><a href="#"><i class="fa fa-minus fa-fw"></i> 楼层</a></li>
+                                            <li icon="fa-sitemap"><a href="#"><i class="fa fa-sitemap fa-fw"></i> 虚拟设备</a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#">监控主机</a></li>
-                                            <li><a href="#">报警主机</a></li>
-                                            <li><a href="#">门禁主机</a></li>
-                                            <li><a href="#">对讲主机</a></li>
+                                            <li icon="fa-sitemap"><a href="#"><i class="fa fa-sitemap fa-fw"></i> 监控主机</a></li>
+                                            <li icon="fa-bell"><a href="#"><i class="fa fa-bell fa-fw"></i> 报警主机</a></li>
+                                            <li icon="fa-microchip"><a href="#"><i class="fa fa-microchip fa-fw"></i> 门禁主机</a></li>
+                                            <li icon="fa-fax"><a href="#"><i class="fa fa-fax fa-fw"></i> 对讲主机</a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="#">摄像头</a></li>
-                                            <li><a href="#">探头</a></li>
-                                            <li><a href="#">输出</a></li>
-                                            <li><a href="#">面板</a></li>
+                                            <li icon="fa-video-camera"><a href="#"><i class="fa fa-video-camera fa-fw"></i> 摄像头</a></li>
+                                            <li icon="fa-podcast"><a href="#"><i class="fa fa-podcast fa-fw"></i> 探头</a></li>
+                                            <li icon="fa-rss-square"><a href="#"><i class="fa fa-rss-square fa-fw"></i> 输出</a></li>
+                                            <li icon="fa-microphone"><a href="#"><i class="fa fa-microphone fa-fw"></i> 面板</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li icon="fa-fire-extinguisher"><a href="#"><i class="fa fa-fire-extinguisher fa-fw"></i> 消防器材</a></li>
+                                            <li icon="fa-exclamation-triangle"><a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> 重点部位</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="markerposition" class="col-sm-2 control-label">节点坐标</label>
+                            <label for="nodeposition" class="col-sm-2 control-label">节点坐标</label>
                             <div class="col-sm-10">
-                                <input name="markerposition" type="text" class="form-control" id="markerposition" placeholder="节点坐标" readonly="true">
+                                <input name="nodeposition" type="text" class="form-control" id="map-dialog-node-position" placeholder="节点坐标" readonly="true">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-primary center-block btn-modal-submit" onclick="requestAddIndoorMarker()">添加</button>
+                            <label for="nodedescription" class="col-sm-2 control-label">节点描述</label>
+                            <div class="col-sm-10">
+                                <textarea name="nodedescription" type="text" class="form-control" row="2" id="map-dialog-node-description" placeholder="节点描述"></textarea>
+                            </div>
                         </div>
-                        <div id="div-addnote-worning"></div>
-                    </form>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10 ">
+                                <label><input type="checkbox" value="">
+                                    是否拥有室内布防图
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary center-block btn-modal-submit" id="map-dialog-node-submit">添加</button>
+                        </div>
+                        <div id="map-dialog-node-worning"></div>
+                    </div>
                 </div>
             </div>
         </div>
