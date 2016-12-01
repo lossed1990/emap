@@ -250,7 +250,7 @@ var OutDoorMap = {
                 // }
 
                 if (m_bAddMarkerState) {
-                    showAddNoteModal(0, e.lngLat.lng, e.lngLat.lat);
+                    showAddNodeModal(0, e.lngLat.lng, e.lngLat.lat);
                 }
             });
 

@@ -52,10 +52,10 @@ $("#map-info-close").click(function() {
 /**tab切换按钮点击事件*/
 $("#map-info-indicators-base").click(function() {
     //更换icon
-    $("#map-info-indicators-base").removeClass("icon-circle-blank");
-    $("#map-info-indicators-base").addClass("icon-circle");
-    $("#map-info-indicators-node").removeClass("icon-circle");
-    $("#map-info-indicators-node").addClass("icon-circle-blank");
+    $("#map-info-indicators-base").removeClass("fa-circle-o");
+    $("#map-info-indicators-base").addClass("fa-circle");
+    $("#map-info-indicators-node").removeClass("fa-circle");
+    $("#map-info-indicators-node").addClass("fa-circle-o");
     //隐藏panel
     $("#map-info-base").css("visibility", "visible");
     $("#map-info-node").css("visibility", "hidden");
@@ -64,10 +64,10 @@ $("#map-info-indicators-base").click(function() {
 });
 $("#map-info-indicators-node").click(function() {
     //更换icon
-    $("#map-info-indicators-node").removeClass("icon-circle-blank");
-    $("#map-info-indicators-node").addClass("icon-circle");
-    $("#map-info-indicators-base").removeClass("icon-circle");
-    $("#map-info-indicators-base").addClass("icon-circle-blank");
+    $("#map-info-indicators-node").removeClass("fa-circle-o");
+    $("#map-info-indicators-node").addClass("fa-circle");
+    $("#map-info-indicators-base").removeClass("fa-circle");
+    $("#map-info-indicators-base").addClass("fa-circle-o");
     //隐藏panel
     $("#map-info-base").css("visibility", "hidden");
     $("#map-info-node").css("visibility", "visible");
@@ -200,24 +200,7 @@ var MapTool = {
 var g_oMapTool = MapTool.createNew();
 
 
-
-//显示添加节点dialog，后期考虑放入tool对象中
-/**
- * @breif 显示添加节点dialog
- * 
- * @param id   所属图层ID 0-室外地图
- * @param lng  经度
- * @param lat  纬度
- */
-function showAddNoteModal(id, lng, lat) {
-    var position = "(" + lng + "," + lat + ")";
-    // $("#markerlayoutid").val(id);
-    $("#map-dialog-node-position").val(position);
-    $("#map-dialog-node-position").attr({ "lng": lng, "lat": lat });
-    $('#map-dialog-node').modal('show');
-}
-
-
+//=====新增节点界面事件处理=====
 /**
  * @brief 绑定节点类型选择下拉菜单事件
  */
@@ -262,6 +245,26 @@ $("#map-dialog-node-submit").click(function() {
     $('#map-dialog-node').modal('hide');
 });
 
+/**
+ * @breif 显示添加节点dialog
+ * 
+ * @param id   所属图层ID 0-室外地图
+ * @param lng  经度
+ * @param lat  纬度
+ */
+function showAddNodeModal(id, lng, lat) {
+    var position = "(" + lng + "," + lat + ")";
+    // $("#markerlayoutid").val(id);
+    $("#map-dialog-node-position").val(position);
+    $("#map-dialog-node-position").attr({ "lng": lng, "lat": lat });
+    $('#map-dialog-node').modal('show');
+}
+
+/**
+ * @breif 显示错误信息
+ * 
+ * @param errorinfo  错误信息
+ */
 function fillErrorHtml(errorinfo) {
     var htmlinfo = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>提示！</strong>" + errorinfo + "</div>";
     return htmlinfo;
