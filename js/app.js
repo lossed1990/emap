@@ -33,9 +33,12 @@ function getXMLHTTPRequest() {
  */
 function initMaps() {
     g_oOutDoorMap.initMap();
-    initIndoorMap();
+    g_oInDoorMap.initMap();
+    //initIndoorMap();
 
     g_oMapTool.initTool();
+
+    g_oInDoorMap.setMap("img/map_picture/map.jpg", 1920, 1200);
 }
 
 //=====图层信息显示区相关界面事件处理=====
@@ -179,10 +182,10 @@ var MapTool = {
                 $(".map-tools-ring .fa-map-marker").removeClass("fa-map-marker");
 
                 g_oOutDoorMap.enterAddMarkerState();
+                g_oInDoorMap.enterAddMarkerState();
             } else {
                 //更换icon
                 tool.restoreMarkerToolIcon();
-                g_oOutDoorMap.leaveAddMarkerState();
             }
         }
 
@@ -190,6 +193,9 @@ var MapTool = {
             $(".map-tools-ring .fa-globe").attr("title", "进入标注节点状态");
             $(".map-tools-ring .fa-globe").addClass("fa-map-marker");
             $(".map-tools-ring .fa-globe").removeClass("fa-globe");
+
+            g_oOutDoorMap.leaveAddMarkerState();
+            g_oInDoorMap.leaveAddMarkerState();
         }
 
         return tool;

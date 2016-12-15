@@ -1,5 +1,5 @@
 /**
- * @brief 室内地图对象
+ * @brief 室外地图对象
  */
 var OutDoorMap = {
     createNew: function() {
@@ -387,5 +387,5 @@ var OutDoorMap = {
     }
 };
 
-//室内地图全局对象
+//室外地图全局对象
 var g_oOutDoorMap = OutDoorMap.createNew();
