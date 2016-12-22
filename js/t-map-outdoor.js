@@ -249,8 +249,9 @@ var OutDoorMap = {
                 //     }
                 // }
 
+                //如果是添加marker状态，弹出添加界面
                 if (m_bAddMarkerState) {
-                    showAddNodeModal(0, e.lngLat.lng, e.lngLat.lat);
+                    g_oAddNodeDialog.showAddNodeModal(0, 0, e.lngLat.lng, e.lngLat.lat);
                 }
             });
 
@@ -258,8 +259,8 @@ var OutDoorMap = {
             m_oGLMap.on('mouseup', function(e) {
                 if (2 == e.originalEvent.button) {
                     map.leaveAddMarkerState();
-                    if (g_oMapTool) {
-                        g_oMapTool.restoreMarkerToolIcon();
+                    if (g_oMapToolWnd) {
+                        g_oMapToolWnd.restoreMarkerToolIcon();
                     }
                 }
             });

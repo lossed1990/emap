@@ -127,7 +127,7 @@ body {
     vertical-align: top;
 }
 
-#map-search a {
+#map-search-btn {
     display: inline-block;
     height: 40px;
     width: 40px;
@@ -137,7 +137,7 @@ body {
     color: #333;
 }
 
-#map-search a:hover {
+#map-search-btn:hover {
     opacity: 0.7;
 }
 
@@ -151,6 +151,122 @@ body {
     border: 1px solid rgba(51, 51, 51, 0.2);
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
     visibility: hidden;
+    /*padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 15px;
+    padding-left: 12px;*/
+}
+
+#map-search-panelbase,
+#map-search-panelresult {
+    position: absolute;
+    height: 350px;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 15px;
+    padding-left: 12px;
+}
+
+#map-search-panelresult {
+    visibility: hidden;
+    overflow-x: auto;
+}
+
+.map-search-layer-header {
+    position: relative;
+    line-height: 36px;
+    border-bottom: 1px solid #cbcccd;
+}
+
+.map-search-layer-current {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.map-search-layer-refresh {
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+#map-search-panel-root {
+    height: 40px;
+    overflow-x: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.root-layer {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: #337AB7;
+    white-space: nowrap;
+}
+
+.layer-letter {
+    margin-top: 10px;
+    -webkit-padding-start: 0px;
+    padding-inline-start: 0px;
+}
+
+.layer-letter li {
+    display: inline-block;
+    background-color: #f5f5f5;
+    margin-left: 6px;
+    cursor: pointer;
+    line-height: 18px;
+    width: 18px;
+    text-align: center;
+}
+
+.layer-letter li:hover {
+    background-color: #337AB7;
+}
+
+#map-search-panel-alllayer {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#map-search-panel-alllayer dl {
+    height: 190px;
+    overflow-x: auto;
+}
+
+.layer-layer dd {
+    margin: 0 0 0 25px;
+}
+
+dl dd li {
+    display: inline-block;
+    margin-right: 9px;
+    cursor: pointer;
+    color: #999;
+}
+
+dl dd li:hover {
+    color: #337AB7;
+}
+
+
+/*.layer-index {
+     // white-space: normal;
+    width: 23px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.layer-index:hover {
+    background-color: #337AB7;
+}*/
+
+#map-search-panel-all {
+    overflow-x: auto;
 }
 
 
@@ -368,7 +484,7 @@ body {
     left: 0;
 }*/
 
-#add-layout {
+#add-layer {
     background-color: #FFF;
     position: absolute;
     top: 50%;
@@ -384,7 +500,7 @@ body {
     visibility: hidden;
 }
 
-#btn-close-add-layout {
+#btn-close-add-layer {
     position: absolute;
     font-size: 20px;
     width: 42px;

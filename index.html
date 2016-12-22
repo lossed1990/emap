@@ -9,6 +9,7 @@
 
     <!--加载第三方样式库-->
     <link rel="stylesheet" href="css/3rdpart/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="css/bootstrap-table.css">-->
     <link rel="stylesheet" href="css/3rdpart/mapbox-gl.css">
     <link rel='stylesheet' href='css/3rdpart/mapbox-gl-draw.css'>
     <!--openlayer样式库-->
@@ -20,6 +21,9 @@
     <!--加载自定义样式库-->
     <link rel="stylesheet" href="css/app.css">
     <!--<link rel="stylesheet" href="css/maptool.css" media="screen" type="text/css" />-->
+    <link rel="stylesheet" href="css/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
 </head>
 
 <body onload="initMaps()">
@@ -69,6 +73,108 @@
             <a id="map-search-btn" data-cnzz="搜索"></a>
         </div>
         <div id="map-search-panel">
+            <div id="map-search-panelbase">
+                <header class="map-search-layer-header">
+                    <span class="map-search-layer-current">当前图层：上海总行</span>
+                    <span class="map-search-layer-refresh"><i class="fa fa-refresh"></i></span>
+                </header>
+                <div id="map-search-panel-root">
+                </div>
+                <div id="map-search-panel-alllayer">
+                    <ul class="layer-letter">
+                        <li>A</li>
+                        <li>B</li>
+                        <li>C</li>
+                        <li>D</li>
+                        <li>E</li>
+                        <li>F</li>
+                        <li>G</li>
+                        <li>H</li>
+                        <li>J</li>
+                        <li>K</li>
+                        <li>L</li>
+                        <li>M</li>
+                        <li>N</li>
+                        <li>P</li>
+                        <li>Q</li>
+                        <li>R</li>
+                        <li>S</li>
+                        <li>T</li>
+                        <li>W</li>
+                        <li>X</li>
+                        <li>Y</li>
+                        <li>Z</li>
+                    </ul>
+
+                    <dl class="layer-layer">
+                        <dt class="index-A">A：</dt>
+                        <dd class="layer-A"></dd>
+                        <dt class="index-B">B：</dt>
+                        <dd class="layer-B"></dd>
+                        <dt class="index-C">C：</dt>
+                        <dd class="layer-C"></dd>
+                        <dt class="index-D">D：</dt>
+                        <dd class="layer-D"></dd>
+                        <dt class="index-E">E：</dt>
+                        <dd class="layer-E"></dd>
+                        <dt class="index-F">F：</dt>
+                        <dd class="layer-F"></dd>
+                        <dt class="index-G">G：</dt>
+                        <dd class="layer-G"></dd>
+                        <dt class="index-H">H：</dt>
+                        <dd class="layer-H"></dd>
+                        <dt class="index-J">J：</dt>
+                        <dd class="layer-J"></dd>
+                        <dt class="index-K">K：</dt>
+                        <dd class="layer-K"></dd>
+                        <dt class="index-L">L：</dt>
+                        <dd class="layer-L"></dd>
+                        <dt class="index-M">M：</dt>
+                        <dd class="layer-M"></dd>
+                        <dt class="index-N">N：</dt>
+                        <dd class="layer-N"></dd>
+                        <dt class="index-P">P：</dt>
+                        <dd class="layer-P"></dd>
+                        <dt class="index-Q">Q：</dt>
+                        <dd class="layer-Q"></dd>
+                        <dt class="index-R">R：</dt>
+                        <dd class="layer-R"></dd>
+                        <dt class="index-S">S：</dt>
+                        <dd class="layer-S"></dd>
+                        <dt class="index-T">T：</dt>
+                        <dd class="layer-T"></dd>
+                        <dt class="index-W">W：</dt>
+                        <dd class="layer-W"></dd>
+                        <dt class="index-X">X：</dt>
+                        <dd class="layer-X"></dd>
+                        <dt class="index-Y">Y：</dt>
+                        <dd class="layer-Y"></dd>
+                        <dt class="index-Z">Z：</dt>
+                        <dd class="layer-Z"></dd>
+                    </dl>
+                </div>
+            </div>
+            <div id="map-search-panelresult">
+                <!--<li class="poibox poibox-normal amap-marker" id="B00155M0OB">
+                    <div class="poi-imgbox">
+                        <span class="poi-img" style="background-image:url(http://store.is.autonavi.com/showpic/fce585b89d82bd72f2704cc7416e3a84?operate=merge&amp;w=160&amp;h=150&amp;position=5)"></span>
+                    </div>
+                    <div class="poi-info-left">
+                        <h3 class="poi-title">
+                            <span title="上海大酒店" class="poi-name">1.&nbsp;上海大酒店</span>	
+                        </h3>
+                        <div class="poi-info">
+                            <p class="poi-rate">
+                                <span class="poi-star">
+                                    <b class="poi-fstar" style="width:61.1px"></b>
+                                </span>
+                            </p>
+                            <span class="poi-price"><font color="#999999">起价:</font><font color="#f53623">￥</font><font color="#f53623">859</font>&nbsp;&nbsp;<font color="#999999">五星级</font></span>
+                            <p class="poi-addr">九江路505号</p>
+                        </div>
+                    </div>
+                </li>-->
+            </div>
         </div>
     </div>
 
@@ -145,16 +251,17 @@
     <!--工具栏区-->
     <div class="map-tools">
         <div class="map-tools-ring">
-            <!--<a class="map-tools-menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>-->
+            <!--<a class="map-tools-menuItem icon-file icon-2x" title="新建图层" data-toggle="modal" data-target="#map-dialog-layer"></a>-->
 
-            <a class="map-tools-menuItem fa fa-map-o fa-2x" title="新建图层" data-toggle="modal" data-target="#add-layout-modal"></a>
-            <a class="map-tools-menuItem fa fa-refresh fa-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
-            <a class="map-tools-menuItem fa fa-map-marker fa-2x" title="进入标注节点状态" onclick="g_oMapTool.changeMapState()"></a>
-            <a class="map-tools-menuItem fa fa-clock-o fa-2x" title="批量标注" onclick="test()"></a>
+            <a class="map-tools-menuItem fa fa-map-o fa-2x" title="新建图层" onclick="g_oAddLayerDialog.showAddLayerModal()"></a>
+            <a class="map-tools-menuItem fa fa-refresh fa-2x" title="交换地图" onclick="g_oMapToolWnd.exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem fa fa-map-marker fa-2x" title="进入标注节点状态" onclick="g_oMapToolWnd.changeMapState()"></a>
+            <!--<a class="map-tools-menuItem fa fa-clock-o fa-2x" title="批量标注" data-toggle="modal" data-target="#map-dialog-layermanager"></a>-->
+            <a class="map-tools-menuItem fa fa-clock-o fa-2x" title="批量标注" onclick="g_oLayoutManagerWindow.show()"></a>
             <a class="map-tools-menuItem fa fa-cog fa-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
-            <a class="map-tools-menuItem fa fa-pencil fa-2x" title="交换地图" onclick="g_oMapTool.exchangeMapPosition()"></a>
-            <a class="map-tools-menuItem fa fa-eye-slash fa-2x" title="隐藏小地图" onclick="g_oMapTool.changeSmallMapVisibility()"></a>
-            <a class="map-tools-menuItem fa fa-newspaper-o fa-2x" title="图层信息" onclick="g_oMapTool.showMapInfo()"></a>
+            <a class="map-tools-menuItem fa fa-pencil fa-2x" title="交换地图" onclick="g_oMapToolWnd.exchangeMapPosition()"></a>
+            <a class="map-tools-menuItem fa fa-eye-slash fa-2x" title="隐藏小地图" onclick="g_oMapToolWnd.changeSmallMapVisibility()"></a>
+            <a class="map-tools-menuItem fa fa-newspaper-o fa-2x" title="图层信息" onclick="g_oMapToolWnd.showMapInfo()"></a>
         </div>
         <a class="map-tools-center fa fa-th fa-2x" title="工具菜单"></a>
     </div>
@@ -191,7 +298,7 @@
         <div class="tooldragbar tooldragdown"></div>
         <div class="tooldragbar tooldragleft"></div>
         <div class="tooldragbar tooldragright"></div>
-        <a class="locate-point" id="btn-add-map" data-cnzz="新建图层" data-toggle="modal" data-target="#add-layout-modal">
+        <a class="locate-point" id="btn-add-map" data-cnzz="新建图层" data-toggle="modal" data-target="#map-dialog-layer">
             <span>新建图层</span>
         </a>
         <a class="locate-point" id="btn-locate-point" data-cnzz="手动标记" onclick="exchangeMouseCursor()">
@@ -214,40 +321,35 @@
     <div id="div-worning"></div>
 
     <!-- Modal -->
-    <div class="modal fade" id="add-layout-modal" tabindex="-1" role="dialog" aria-labelledby="add-layout-modal-label">
+    <div class="modal fade" id="map-dialog-layer" tabindex="-1" role="dialog" aria-labelledby="map-dialog-layer-label">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="add-layout-modal-label">新建图层</h4>
+                    <h4 class="modal-title" id="map-dialog-layer-label">新建图层</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="add-indoorarea-form" class="form-horizontal" enctype="multipart/form-data" method="post" action="mapunit/configunit/add_indoor_area.php">
+                    <div class="form-horizontal" id="map-dialog-layer-form">
+                        <!--<form id="add-indoorarea-form" class="form-horizontal" enctype="multipart/form-data" method="post" action="mapunit/configunit/add_indoor_area.php">-->
                         <div class="form-group">
-                            <label for="inputName1" class="col-sm-2 control-label">图层名称</label>
+                            <label for="areaname" class="col-sm-2 control-label">图层名称</label>
                             <div class="col-sm-10">
-                                <input name="areaname" type="text" class="form-control" id="inputName1" placeholder="图层名称">
+                                <input name="areaname" type="text" class="form-control" id="map-dialog-map-areaname" placeholder="图层名称">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputName2" class="col-sm-2 control-label">图层类型</label>
+                            <label for="fatherarea" class="col-sm-2 control-label">所属区域</label>
                             <div class="col-sm-10">
-                                <input name="areatype" type="text" class="form-control" id="inputName2" placeholder="图层类型">
+                                <input name="fatherarea" type="text" class="form-control" id="map-dialog-map-fatherarea" placeholder="所属区域">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputName3" class="col-sm-2 control-label">所属区域</label>
+                            <label for="mapdescription" class="col-sm-2 control-label">图层描述</label>
                             <div class="col-sm-10">
-                                <input name="fatherarea" type="text" class="form-control" id="inputName3" placeholder="所属区域">
+                                <textarea name="mapdescription" type="text" class="form-control" row="2" id="map-dialog-map-description" placeholder="图层描述"></textarea>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="InputName4" class="col-sm-2 control-label">联系人</label>
-                            <div class="col-sm-10">
-                                <input name="linkman" type="text" class="form-control" id="InputName4" placeholder="联系人">
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="InputName5" class="col-sm-2 control-label">联系电话</label>
                             <div class="col-sm-3">
                                 <input name="areanum" type="text" class="form-control" id="InputName5" placeholder="区号">
@@ -256,20 +358,21 @@
                             <div class="col-sm-6">
                                 <input name="phonenum" type="text" class="form-control" id="InputName6" placeholder="联系电话">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group">
-                            <label for="InputFile1" class="col-sm-2 control-label">上传地图</label>
+                            <label for="upfile" class="col-sm-2 control-label">上传地图</label>
                             <div class="col-sm-10">
-                                <input name="upfile" type="file" id="InputFile1">
-                                <p class="help-block">请上传新图层的地图文件,目前仅支持jpg格式</p>
+                                <input name="upfile" type="file" id="map-dialog-map-inputmap">
+                                <p class="help-block">请上传新图层的地图文件</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-primary center-block btn-modal-submit" onclick="requestAddIndoorMap()">添加</button>
+                            <button class="btn btn-primary center-block btn-modal-submit" id="map-dialog-map-submit">添加</button>
                         </div>
 
-                        <div id="div-addindoormap-worning"></div>
-                    </form>
+                        <div id="map-dialog-layer-worning"></div>
+                        <!--</form>-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -285,7 +388,7 @@
                 <div class="modal-body">
                     <div class="form-horizontal" id="map-dialog-node-form">
                         <!--enctype="multipart/form-data" method="post" action=""-->
-                        <!--<input id="map-dialog-node-markerlayoutid" name="nodelayoutid" type="text" class="hidden" placeholder="所属图层编号" readonly="true">-->
+                        <!--<input id="map-dialog-node-markerlayerid" name="nodelayerid" type="text" class="hidden" placeholder="所属图层编号" readonly="true">-->
                         <div class="form-group">
                             <label for="nodename" class="col-sm-2 control-label">节点名称</label>
                             <div class="col-sm-10">
@@ -351,6 +454,32 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="map-dialog-layermanager" tabindex="-1" role="dialog" aria-labelledby="map-dialog-layermanager-label">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="map-dialog-layermanager-label">图层管理</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="layer-table"></table>
+                    <!--<table data-height="430" id="goods" data-search="true" data-show-toggle="true" data-show-columns="true">
+                        <thead>
+                            <tr>
+                                <th data-field="Code">序号</th>
+                                <th data-field="TuanGouName">商品名称</th>
+                                <th data-field="StartDate">开始时间</th>
+                                <th data-field="EndTime">结束时间</th>
+                            </tr>
+                        </thead>
+                    </table>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/jquery.form.js"></script>
@@ -358,14 +487,38 @@
     <script src="js/mapbox-gl.js"></script>
     <script src="js/ol.js"></script>
 
-    <!--<script src="js/appstyle.js"></script>-->
-    <script src="js/mapbox.js"></script>
-    <script type="text/javascript" src="js/usergooglemapapi.js"></script>
-    <script type="text/javascript" src="js/userindoormapapi.js"></script>
-    <script type="text/javascript" src="js/outdoormap.js"></script>
-    <script src="js/app.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.12.1/mapbox-gl-draw.js'></script>
+
+    <!--<script src="js/bootstrap-table.js"></script>-->
+    <script src="js/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-table-zh-CN.min.js"></script>
+    <!--<script src="js/bootbox.min.js"></script>-->
+    <script src="js/sweetalert.min.js"></script>
+    <script src="js/toastr.min.js"></script>
+
+    <script type="text/javascript" src="js/makePy.min.js"></script>
+
+    <!--<script src="js/appstyle.js"></script>-->
+    <!--<script src="js/mapbox.js"></script>-->
+
+    <script src="js/t-unit-serverapi.js"></script>
+    <script src="js/t-ui-addlayer.js"></script>
+    <script src="js/t-ui-addnode.js"></script>
+    <script src="js/t-ui-layermanager.js"></script>
+    <script src="js/t-ui-search.js"></script>
+    <script src="js/t-ui-tool.js"></script>
+
+    <script type="text/javascript" src="js/t-map-outdoor.js"></script>
+    <script type="text/javascript" src="js/t-map-indoor.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <!--<script type="text/javascript" src="js/usergooglemapapi.js"></script>-->
+
+
+
+
     <!--<script src="js/area_tool.js"></script>
     <script src="js/note_tool.js"></script>-->
     <script type="text/javascript">
@@ -394,9 +547,114 @@
             }
 
             document.oncontextmenu = nocontextmenu; // for IE5+
-            document.onmousedown = norightclick; //for all others
+            //document.onmousedown = norightclick; //for all others
+
+
+
         }());
 
+
+
+
+        // /*数据json*/
+        // var json = [{
+        //     "Code": "1",
+        //     "TuanGouName": "好多鱼",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "2",
+        //     "TuanGouName": "旺旺雪饼",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "3",
+        //     "TuanGouName": "旺旺仙贝",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "4",
+        //     "TuanGouName": "雪花清爽",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "5",
+        //     "TuanGouName": "勇闯天涯",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }, {
+        //     "Code": "6",
+        //     "TuanGouName": "九洲奇味饼干",
+        //     "StartDate": "2016/10/9 10:15:00",
+        //     "EndTime": "2016/12/25 11:30:00"
+        // }];
+
+        // $('#layer-table').bootstrapTable({
+        //     columns: [{
+        //         field: 'Code',
+        //         title: '序号'
+        //     }, {
+        //         field: 'TuanGouName',
+        //         title: '商品名称'
+        //     }, {
+        //         field: 'StartDate',
+        //         title: '开始时间'
+        //     }, {
+        //         field: 'EndTime',
+        //         title: '结束时间'
+        //     }],
+        //     data: json,
+        //     height: 460,
+        //     showToggle: true,
+        //     showColumns: true,
+        //     showHeader: true,
+        //     search: true
+        // });
+
+
+
+
+        // $('#layer-table').bootstrapTable('toggleView'); //随窗口改变表格自适应
+        // $('#layer-table').bootstrapTable('toggleView');
+
+        // $('#layer-table').bootstrapTable('refresh', {
+        //     silent: true
+        // });
 
         function test() {
             // var a = JSON.parse(m_geojson_MarkersData_onload);
@@ -406,6 +664,8 @@
 
             g_oOutDoorMap.addMarkers(g_oOutDoorMap.m_geojson_MarkersData_onchange);
             //addOutdoorMapMarkers(m_geojson_MarkersData_onchange);
+
+
         }
     </script>
 </body>
