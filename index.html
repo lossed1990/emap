@@ -22,8 +22,10 @@
     <link rel="stylesheet" href="css/app.css">
     <!--<link rel="stylesheet" href="css/maptool.css" media="screen" type="text/css" />-->
     <link rel="stylesheet" href="css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="css/themes/default/style.min.css" />
     <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
     <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
+
 </head>
 
 <body onload="initMaps()">
@@ -340,7 +342,15 @@
                         <div class="form-group">
                             <label for="fatherarea" class="col-sm-2 control-label">所属区域</label>
                             <div class="col-sm-10">
-                                <input name="fatherarea" type="text" class="form-control" id="map-dialog-map-fatherarea" placeholder="所属区域">
+                                <div class="input-group ">
+                                    <input name="fatherarea" type="text" class="form-control" id="map-dialog-map-fatherarea" placeholder="所属区域" readonly="true">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择<span class="caret"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" id="parent-tree">
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -370,7 +380,7 @@
                             <button class="btn btn-primary center-block btn-modal-submit" id="map-dialog-map-submit">添加</button>
                         </div>
 
-                        <div id="map-dialog-layer-worning"></div>
+                        <!--<div id="map-dialog-layer-worning"></div>-->
                         <!--</form>-->
                     </div>
                 </div>
@@ -464,17 +474,6 @@
                 </div>
                 <div class="modal-body">
                     <table id="layer-table"></table>
-                    <!--<table data-height="430" id="goods" data-search="true" data-show-toggle="true" data-show-columns="true">
-                        <thead>
-                            <tr>
-                                <th data-field="Code">序号</th>
-                                <th data-field="TuanGouName">商品名称</th>
-                                <th data-field="StartDate">开始时间</th>
-                                <th data-field="EndTime">结束时间</th>
-                            </tr>
-                        </thead>
-                    </table>-->
-
                 </div>
             </div>
         </div>
@@ -493,6 +492,7 @@
     <!--<script src="js/bootstrap-table.js"></script>-->
     <script src="js/bootstrap-table.min.js"></script>
     <script src="js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="js/jstree.min.js"></script>
     <!--<script src="js/bootbox.min.js"></script>-->
     <script src="js/sweetalert.min.js"></script>
     <script src="js/toastr.min.js"></script>
@@ -549,112 +549,43 @@
             document.oncontextmenu = nocontextmenu; // for IE5+
             //document.onmousedown = norightclick; //for all others
 
+            // $('#container').jstree({
+            //     'core': {
+            //         'data': [{
+            //             "text": "Root node",
+            //             "children": [{
+            //                 "text": "Child node 1",
+            //                 "children": [{
+            //                     "text": "Child node 2"
+            //                 }, {
+            //                     "text": "Child node 2"
+            //                 }]
+            //             }, {
+            //                 "text": "Child node 2"
+            //             }, {
+            //                 "text": "Child node 2"
+            //             }]
+            //         }, ]
+            //     }
+            // });
+
+            // $("#parent-tree").jstree({
+            //     'core': {
+            //         'data': [{
+            //             "text": "Root node",
+            //             "children": [{
+            //                 "text": "Child node 1"
+            //             }, {
+            //                 "text": "Child node 2"
+            //             }]
+            //         }]
+            //     }
+            // });
+
 
 
         }());
 
-
-
-
-        // /*数据json*/
-        // var json = [{
-        //     "Code": "1",
-        //     "TuanGouName": "好多鱼",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "2",
-        //     "TuanGouName": "旺旺雪饼",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "3",
-        //     "TuanGouName": "旺旺仙贝",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "4",
-        //     "TuanGouName": "雪花清爽",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "5",
-        //     "TuanGouName": "勇闯天涯",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }, {
-        //     "Code": "6",
-        //     "TuanGouName": "九洲奇味饼干",
-        //     "StartDate": "2016/10/9 10:15:00",
-        //     "EndTime": "2016/12/25 11:30:00"
-        // }];
-
-        // $('#layer-table').bootstrapTable({
-        //     columns: [{
-        //         field: 'Code',
-        //         title: '序号'
-        //     }, {
-        //         field: 'TuanGouName',
-        //         title: '商品名称'
-        //     }, {
-        //         field: 'StartDate',
-        //         title: '开始时间'
-        //     }, {
-        //         field: 'EndTime',
-        //         title: '结束时间'
-        //     }],
-        //     data: json,
-        //     height: 460,
-        //     showToggle: true,
-        //     showColumns: true,
-        //     showHeader: true,
-        //     search: true
-        // });
-
-
-
-
-        // $('#layer-table').bootstrapTable('toggleView'); //随窗口改变表格自适应
-        // $('#layer-table').bootstrapTable('toggleView');
-
-        // $('#layer-table').bootstrapTable('refresh', {
-        //     silent: true
-        // });
 
         function test() {
             // var a = JSON.parse(m_geojson_MarkersData_onload);

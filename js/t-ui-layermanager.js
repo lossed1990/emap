@@ -44,7 +44,6 @@ var LayoutManagerWindow = {
                     formatter: operateFormatter,
                     events: operateEvents,
                     width: 60
-                        //cellStyle: formatOperateUnit
                 }],
                 height: 460, //表高度，设置改值，可固定表头
                 showToggle: true, //显示表格类型切换按钮

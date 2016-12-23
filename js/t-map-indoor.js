@@ -40,7 +40,7 @@ var InDoorMap = {
         });
 
         //=====公共接口方法=====
-        map.initMap = function() {
+        map.init = function() {
             m_oOLMap = new ol.Map({
                 layers: [
                     layer,

@@ -520,3 +520,8 @@ dl dd li:hover {
     height: 5%;
     z-index: 100;
 }
+
+#parent-tree {
+    height: 200px;
+    overflow-x: auto;
+}

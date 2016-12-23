@@ -6,7 +6,7 @@ var MapToolWnd = {
     createNew: function() {
         var tool = {};
 
-        tool.initTool = function() {
+        tool.init = function() {
             var items = document.querySelectorAll('.map-tools-menuItem');
             for (var i = 0, l = items.length; i < l; i++) {
                 items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";

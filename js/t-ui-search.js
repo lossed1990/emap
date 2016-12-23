@@ -15,7 +15,7 @@ var SearchWindow = {
         var $scrollToContainer = $(".index-A");
         var $mainContainer = $('.layer-layer');
 
-        wnd.initWnd = function() {
+        wnd.changeLayerMap = function() {
             /**检索区移动事件*/
             $("#map-search").draggable({ containment: "body", scroll: false, cursor: "move" });
             /**检索输入框点击事件*/
@@ -52,7 +52,8 @@ var SearchWindow = {
             /**检索显示区关闭按钮点击事件*/
             $(".map-search-layer-refresh").click(function() {
                 //wnd.getRootChildLayers();
-                g_oServerApi.ajaxGetChildLayers("ROOT", true);
+                //g_oServerApi.ajaxGetChildLayers("ROOT", true);
+                g_oServerApi.ajaxGetAllLayers();
             });
             /**拼音字母标签点击事件*/
             $(".layer-letter li").click(function() {
@@ -77,7 +78,8 @@ var SearchWindow = {
                 });
             }());
             /**获取根图层信息*/
-            g_oServerApi.ajaxGetChildLayers("ROOT", true);
+            //g_oServerApi.ajaxGetChildLayers("ROOT", true);
+            g_oServerApi.ajaxGetAllLayers();
         };
 
         //图层数据改变事件

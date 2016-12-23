@@ -1,30 +1,30 @@
-//=====Ajax相关=====
-/**
- * @breif 创建XMLHTTPRequest对象
- */
-function getXMLHTTPRequest() {
-    var req = false;
+// //=====Ajax相关=====
+// /**
+//  * @breif 创建XMLHTTPRequest对象
+//  */
+// function getXMLHTTPRequest() {
+//     var req = false;
 
-    try {
-        //for Firefox
-        req = new XMLHttpRequest();
-    } catch (err) {
-        try {
-            //for some versions of IE
-            req = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (err) {
-            try {
-                //for some other versions of IE
-                req = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (err) {
-                req = false;
-            }
-        }
-    }
+//     try {
+//         //for Firefox
+//         req = new XMLHttpRequest();
+//     } catch (err) {
+//         try {
+//             //for some versions of IE
+//             req = new ActiveXObject("Msxml2.XMLHTTP");
+//         } catch (err) {
+//             try {
+//                 //for some other versions of IE
+//                 req = new ActiveXObject("Microsoft.XMLHTTP");
+//             } catch (err) {
+//                 req = false;
+//             }
+//         }
+//     }
 
-    return req;
-}
-/*} */
+//     return req;
+// }
+// /*} */
 
 
 //=====初始化相关=====
@@ -32,6 +32,7 @@ function getXMLHTTPRequest() {
  * @breif 初始化相关地图
  */
 function initMaps() {
+    //初始化提示框toastr的相关参数
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -47,23 +48,20 @@ function initMaps() {
         "hideMethod": "fadeOut"
     }
 
-    g_oAddLayerDialog.initDialog();
-    g_oAddNodeDialog.initDialog();
+    g_oAddLayerDialog.init();
+    g_oAddNodeDialog.init();
 
-    g_oOutDoorMap.initMap();
-    g_oInDoorMap.initMap();
-    //initIndoorMap();
+    g_oOutDoorMap.init();
+    g_oInDoorMap.init();
 
-    g_oMapToolWnd.initTool();
-
-    // g_oInDoorMap.setMap("img/map_picture/map.jpg", 1920, 1200);
-    g_oInDoorMap.setMap("http://192.168.2.26:9001/file/getImage.do?fid=IMG20161220172404340&type=0", 1920, 1200);
-
-    g_oSearchWindow.initWnd();
+    g_oMapToolWnd.init();
+    g_oSearchWindow.init();
     g_oLayoutManagerWindow.init();
 
+    //绑定图层数据改变监听者
     g_oServerApi.addLayerDataChangeListener(g_oSearchWindow);
     g_oServerApi.addLayerDataChangeListener(g_oLayoutManagerWindow);
+    g_oServerApi.addLayerDataChangeListener(g_oAddLayerDialog);
 }
 
 //=====图层信息显示区相关界面事件处理=====

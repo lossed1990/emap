@@ -157,7 +157,7 @@ var OutDoorMap = {
         /**
          * @breif 初始化mapboxgl地图
          */
-        map.initMap = function() {
+        map.init = function() {
             m_bLoadMarkers = false;
             m_oGLMap = new mapboxgl.Map({
                 container: 'map-outdoor', // container id

@@ -6,7 +6,7 @@ var AddNodeDialog = {
         //待添加节点的地图类型,1-indoor 0-outdoor
         var m_nMapType = 0;
 
-        dialog.initDialog = function() {
+        dialog.init = function() {
             /**
              * @brief 绑定节点类型选择下拉菜单事件
              */
