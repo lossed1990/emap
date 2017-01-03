@@ -161,6 +161,7 @@ body {
 #map-search-panelresult {
     position: absolute;
     height: 350px;
+    width: 349px;
     padding-top: 6px;
     padding-right: 12px;
     padding-bottom: 15px;
@@ -192,9 +193,11 @@ body {
 
 #map-search-panel-root {
     height: 40px;
-    overflow-x: auto;
+    //width: 349px;
+    //display: inline-block;
     margin-top: 8px;
     margin-bottom: 8px;
+    overflow-x: auto;
 }
 
 .root-layer {
@@ -203,13 +206,16 @@ body {
     padding-top: 2px;
     padding-bottom: 2px;
     color: #337AB7;
-    white-space: nowrap;
+    display: inline-block;
+    //white-space: nowrap;
 }
 
 .layer-letter {
     margin-top: 10px;
     -webkit-padding-start: 0px;
     padding-inline-start: 0px;
+    //width: 349px;
+    //white-space: normal;
 }
 
 .layer-letter li {
@@ -227,12 +233,12 @@ body {
 }
 
 #map-search-panel-alllayer {
-    margin-top: 8px;
+    margin-top: 18px;
     margin-bottom: 8px;
 }
 
 #map-search-panel-alllayer dl {
-    height: 190px;
+    height: 180px;
     overflow-x: auto;
 }
 

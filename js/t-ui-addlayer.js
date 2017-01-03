@@ -8,26 +8,28 @@ var AddLayerDialog = {
         var $m_inputFatherarea = $("#map-dialog-map-fatherarea");
         var $m_inputLayerFile = $("#map-dialog-map-inputmap");
         var $m_inputDescription = $("#map-dialog-map-description");
-        var $m_treeParent = $("#parent-tree");
+        //var $m_treeParent = $("#parent-tree");
         //上传图层文件的原始宽高
         var m_nLayerFileWidth = 0;
         var m_nLayerFileHeight = 0;
         //当前选择的图层节点
-        var m_treeCurrentSelect = null;
+        //var m_treeCurrentSelect = null;
 
         dialog.init = function() {
-            $m_treeParent.click(function(e) {
-                //点击树形控件时，捕获消息不隐藏弹出菜单 //http://blog.csdn.net/yangding_/article/details/52856943
-                e.stopPropagation();
-            });
+            // $m_treeParent.click(function(e) {
+            //     //点击树形控件时，捕获消息不隐藏弹出菜单 //http://blog.csdn.net/yangding_/article/details/52856943
+            //     e.stopPropagation();
+            // });
 
-            $m_treeParent.on("changed.jstree", function(e, data) {
-                console.log("The selected nodes are:");
-                console.log(data.selected);
+            // $m_treeParent.on("changed.jstree", function(e, data) {
+            //     console.log("The selected nodes are:");
+            //     console.log(data.selected);
 
-                m_treeCurrentSelect = data.selected;
-
-            });
+            //     //m_treeCurrentSelect = data.selected;
+            //     var layerobject = g_oServerApi.getLayerObjectById(data.selected);
+            //     $m_inputFatherarea.val(layerobject.name);
+            //     $m_inputFatherarea.attr("layerid", data.selected);
+            // });
 
 
             /**
@@ -57,7 +59,7 @@ var AddLayerDialog = {
 
                     var layerJson = {
                         "description": $m_inputDescription.val(),
-                        "fatherid": $m_inputFatherarea.val(),
+                        "fatherid": $m_inputFatherarea.attr("layerid"),
                         "id": "ADD",
                         "img": {
                             "height": m_nLayerFileHeight,
@@ -73,6 +75,7 @@ var AddLayerDialog = {
                         $m_inputFatherarea.val("");
                         $m_inputDescription.val("");
                         $m_inputLayerFile.val("");
+                        $m_inputFatherarea.attr("layerid", "");
                     });
                 });
 
@@ -94,26 +97,29 @@ var AddLayerDialog = {
         /**
          * @brief 图层数据改变事件
          */
-        dialog.onLayerDataChange = function(datamap) {
-            refreshParentTree(datamap);
-        }
+        // dialog.onLayerDataChange = function(datamap) {
+        //     refreshParentTree(datamap);
+        // }
 
         /**
          * @breif 检查上传参数信息
          */
         function checkParam() {
             if ($m_inputAreaname.val() == "") {
-                fillErrorHtml("请输入图层名称");
+                // fillErrorHtml("请输入图层名称");
+                toastr.error('请输入图层名称！');
                 return false;
             }
 
             if ($m_inputFatherarea.val() == "") {
-                fillErrorHtml("请选择所属图层");
+                //fillErrorHtml("请选择所属图层");
+                toastr.error('请选择所属图层！');
                 return false;
             }
 
             if ($m_inputLayerFile.val() == "") {
-                fillErrorHtml("请选择地图文件");
+                //fillErrorHtml("请选择地图文件");
+                toastr.error('请选择地图文件！');
                 return false;
             }
 
@@ -139,33 +145,38 @@ var AddLayerDialog = {
             };
         }
 
-        function refreshParentTree(datamap) {
-            var datajson = [];
-            var rootobject = { "id": "ROOT", "text": "ROOT", "children": [] }; //根节点对象
-            var subobject = [{ 'ROOT': rootobject }]; //缓存子节点对象，用以构造节点树
+        // function refreshParentTree(datamap) {
+        //     var datajson = [];
+        //     var rootobject = { "id": "ROOT", "text": "ROOT", "children": [] }; //根节点对象
+        //     var subobject = { 'ROOT': rootobject }; //缓存子节点对象，用以构造节点树
 
-            var layerid = null;
-            var layerobject = null;
-            for (layerid in datamap) {
-                layerobject = datamap[layerid];
+        //     var layerid = null;
+        //     var layerobject = null;
+        //     for (layerid in datamap) {
+        //         layerobject = datamap[layerid];
 
-                if (layerobject.fatherid in subobject) {
-                    var newobject = {};
-                    newobject['id'] = layerobject.id;
-                    newobject['text'] = layerobject.name;
-                    newobject['children'] = [];
+        //         if (layerobject.fatherid in subobject) {
+        //             var newobject = {};
+        //             newobject['id'] = layerobject.id;
+        //             newobject['text'] = layerobject.name;
+        //             newobject['children'] = [];
 
-                    subobject[layerobject.id] = newobject;
-                    subobject[layerobject.fatherid]['children'].push(newobject);
-                }
-            }
+        //             subobject[layerobject.id] = newobject;
+        //             subobject[layerobject.fatherid]['children'].push(newobject);
+        //         }
+        //     }
 
-            datajson.push(rootobject);
+        //     datajson.push(rootobject);
 
-            $m_treeParent.jstree({
-                'core': {
-                    'data': datajson
-                }
+        //     $m_treeParent.jstree({
+        //         'core': {
+        //             'data': datajson
+        //         }
+        //     });
+        // }
+        function refreshParentTree() {
+            g_oServerApi.ajaxAddNode(function(nodejson) {
+
             });
         }
 

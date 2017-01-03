@@ -5,56 +5,68 @@ var AddNodeDialog = {
         //=====私有成员变量=====
         //待添加节点的地图类型,1-indoor 0-outdoor
         var m_nMapType = 0;
+        //ui
+        var $m_inputNodeName = $("#map-dialog-node-name");
+        var $m_inputNodeType = $("#map-dialog-node-type");
+        var $m_inputNodePosition = $("#map-dialog-node-position");
+        var $m_inputNodeDescription = $("#map-dialog-node-description");
 
         dialog.init = function() {
             /**
              * @brief 绑定节点类型选择下拉菜单事件
              */
             $('#map-dialog-node-menutype').on('click', 'li', function() {
-                $("#map-dialog-node-type").val($(this).text());
-                $("#map-dialog-node-type").attr("icon", $(this).attr("icon"));
+                $m_inputNodeType.val($(this).text());
+                $m_inputNodeType.attr("icon", $(this).attr("icon"));
             });
 
             /**
              * @brief 绑定提交按钮事件
              */
             $("#map-dialog-node-submit").click(function() {
-                if ($("#map-dialog-node-name").val() == "") {
-                    fillErrorHtml("请输入节点名称");
+                if ($m_inputNodeName.val() == "") {
+                    //fillErrorHtml("请输入节点名称");
+                    toastr.error('请输入节点名称！');
                     return;
                 }
 
                 //获取参数，构造节点json对象
-                var markerObject = {
+                var nodejson = {
                     "type": "Feature",
                     "properties": {
-                        "title": $("#map-dialog-node-name").val(),
-                        "icon": $("#map-dialog-node-type").attr("icon"),
-                        "description": $("#map-dialog-node-description").val()
+                        "title": $m_inputNodeName.val(),
+                        "icon": $m_inputNodeType.attr("icon"),
+                        "description": $m_inputNodeDescription.val()
                     },
                     "geometry": {
                         "type": "Point",
                         "coordinates": []
                     },
-                    "sysinfo": {
-                        "id": "XXXX",
-                        "cmsid": "102",
-                        "thirdpartid": "111",
-                        "thirdparttype": "1",
-                        "extendinfo": ""
-                    }
+                    "id": "ADD",
+                    "layerid": "ROOT",
+                    "nodetype": "area"
                 };
-                markerObject.geometry.coordinates[0] = $("#map-dialog-node-position").attr("lng");
-                markerObject.geometry.coordinates[1] = $("#map-dialog-node-position").attr("lat");
+                nodejson.geometry.coordinates[0] = $m_inputNodePosition.attr("lng");
+                nodejson.geometry.coordinates[1] = $m_inputNodePosition.attr("lat");
 
-                if (m_nMapType === 0) { //添加室外节点
-                    //调用室内地图接口，添加node
-                    g_oOutDoorMap.addMarker(markerObject);
-                } else { //添加室内节点
-                    g_oInDoorMap.addMarker(markerObject);
-                }
+                g_oServerApi.ajaxAddNode(nodejson, function(nodejson) {
+                    if (m_nMapType === 0) { //添加室外节点
+                        //调用室内地图接口，添加node
+                        g_oOutDoorMap.addMarker(nodejson);
+                    } else { //添加室内节点
+                        g_oInDoorMap.addMarker(nodejson);
+                    }
 
-                $('#map-dialog-node').modal('hide');
+                    $('#map-dialog-node').modal('hide');
+                    //成功请求相关输入框
+                    $m_inputNodeName.val("");
+                    $m_inputNodePosition.val("");
+                    $m_inputNodePosition.attr("lng", "");
+                    $m_inputNodePosition.attr("lat", "");
+                    $m_inputNodeType.val("");
+                    $m_inputNodeType.attr("icon", "");
+                    $m_inputNodeDescription.val("");
+                });
             });
         };
 
@@ -78,10 +90,10 @@ var AddNodeDialog = {
          * 
          * @param errorinfo  错误信息
          */
-        function fillErrorHtml(errorinfo) {
-            var htmlinfo = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>提示！</strong>" + errorinfo + "</div>";
-            $('#map-dialog-node-worning').html(htmlinfo);
-        }
+        // function fillErrorHtml(errorinfo) {
+        //     var htmlinfo = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>提示！</strong>" + errorinfo + "</div>";
+        //     $('#map-dialog-node-worning').html(htmlinfo);
+        // }
 
         return dialog;
     }

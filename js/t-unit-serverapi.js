@@ -5,10 +5,19 @@ var ServerApi = {
 
         /** url地址 */
         var m_fileServiceUrl = "http://192.168.2.26:9001/file/clientUploadImage.do";
-        var m_GisServiceUrl = "http://192.168.2.76:8080/elaproxy/emap/UpdateLayer.w";
-        var m_GetChildLayerUrl = "http://192.168.2.76:8080/elaproxy/emap/GetChildLayer.r?parentid=";
-        var m_DeleteLayerUrl = "http://192.168.2.76:8080/elaproxy/emap/DeleteLayer.w?layerid=";
-        var m_FindLayerUrl = "http://192.168.2.76:8080/elaproxy/emap/SearchLayer.r?layername=";
+
+        var m_serAddress = "http://192.168.2.26:9001/";
+        var m_GisServiceUrl = m_serAddress + "elaproxy/emap/UpdateLayer.w";
+        var m_GetChildLayerUrl = m_serAddress + "elaproxy/emap/GetChildLayer.r?parentid=";
+        var m_DeleteLayerUrl = m_serAddress + "elaproxy/emap/DeleteLayer.w?layerid=";
+        var m_FindLayerUrl = m_serAddress + "elaproxy/emap/SearchLayer.r?layername=";
+        var m_GetLayerTreeUrl = m_serAddress + "elaproxy/emap/GetLayerTree.r";
+        var m_UpdateNodeUrl = m_serAddress + "elaproxy/emap/UpdateNode.w";
+        var m_DeleteNodeUrl = m_serAddress + "elaproxy/emap/DeleteNode.w";
+        var m_GetAllNodeByTypeUrl = m_serAddress + "elaproxy/emap/GetAllNodeByType.r?nodetype=";
+        var m_SearchNodeUrl = m_serAddress + "elaproxy/emap/SearchNode.r";
+
+
         //图层数据监听者列表
         var m_listLayerDataChangeListener = [];
         //所有图层对象列表
@@ -64,7 +73,7 @@ var ServerApi = {
                     }
                 },
                 error: function() {
-                    toastr.error('图层获取失败,请检查服务器及网络后重试！');
+                    toastr.error('图层添加失败,请检查服务器及网络后重试！');
                 }
             });
         };
@@ -73,28 +82,29 @@ var ServerApi = {
          * @brief 向服务器请求所有图层
          */
         api.ajaxGetAllLayers = function() {
-            var requestUrl = m_GetChildLayerUrl + parentid;
-            $.ajax({
-                type: "GET",
-                url: requestUrl,
-                success: function(result) {
-                    if (result.ok == 0) {
-                        m_gLayerObjectMap = {};
+            //var requestUrl = m_GetChildLayerUrl + parentid;
+            api.ajaxGetChildLayers("ROOT", true);
+            // $.ajax({
+            //     type: "GET",
+            //     url: m_GetLayerTreeUrl,
+            //     success: function(result) {
+            //         if (result.ok == 0) {
+            //             m_gLayerObjectMap = {};
 
-                        var index = null;
-                        for (index in result.data) {
-                            addlayerObject(result.data[index]);
-                        }
-                        notifyLayerDataChange();
-                        toastr.success('图层数据已更新！');
-                    } else {
-                        toastr.error('获取所有图层失败,' + result.errorinfo);
-                    }
-                },
-                error: function() {
-                    toastr.error('获取所有图层失败,请检查服务器及网络后重试！');
-                }
-            });
+            //             var index = null;
+            //             for (index in result.data) {
+            //                 addlayerObject(result.data[index]);
+            //             }
+            //             notifyLayerDataChange();
+            //             toastr.success('图层数据已更新！');
+            //         } else {
+            //             toastr.error('获取所有图层失败,' + result.errorinfo);
+            //         }
+            //     },
+            //     error: function() {
+            //         toastr.error('获取所有图层失败,请检查服务器及网络后重试！');
+            //     }
+            // });
         };
 
         /**
@@ -165,7 +175,6 @@ var ServerApi = {
                 type: "GET",
                 url: requestUrl,
                 success: function(result) {
-                    var index = null;
                     if (result.ok == 0) {
                         (callback && typeof(callback) === "function") && callback(result.data);
                     } else {
@@ -231,6 +240,54 @@ var ServerApi = {
         api.setCurrentLayerObject = function(object) {
             m_gCurrentLayerObject = object;
         };
+
+        /**
+         * @brief 向服务器请求添加节点
+         * 
+         * @param nodejson 节点json参数
+         */
+        api.ajaxAddNode = function(nodejson, callback) {
+            $.ajax({
+                type: "POST",
+                url: m_UpdateNodeUrl,
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(nodejson),
+                dataType: "json",
+                success: function(result) {
+                    if (result.ok == 0) {
+                        toastr.success("节点[" + nodejson.properties.title + "]添加成功！");
+                        (callback && typeof(callback) === "function") && callback(nodejson);
+                    } else {
+                        toastr.error('节点添加失败,' + result.errorinfo);
+                    }
+                },
+                error: function() {
+                    toastr.error('节点添加失败,请检查服务器及网络后重试！');
+                }
+            });
+        };
+
+        /**
+         * @brief 向服务器请求所有可以添加图层的节点信息
+         */
+        api.ajaxGetAreaNode = function(callback) {
+            var requestUrl = m_GetAllNodeByTypeUrl + 'area';
+            $.ajax({
+                type: "GET",
+                url: requestUrl,
+                success: function(result) {
+                    if (result.ok == 0) {
+                        (callback && typeof(callback) === "function") && callback(result.data);
+                    } else {
+                        toastr.error('节点获取失败，' + result.errorinfo);
+                    }
+                },
+                error: function() {
+                    toastr.error('连接失败,请检查服务器及网络后重试！');
+                }
+            });
+        }
+
 
         //通知监听者图层数据改变
         function notifyLayerDataChange() {

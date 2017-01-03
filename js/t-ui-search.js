@@ -15,7 +15,7 @@ var SearchWindow = {
         var $scrollToContainer = $(".index-A");
         var $mainContainer = $('.layer-layer');
 
-        wnd.changeLayerMap = function() {
+        wnd.init = function() {
             /**检索区移动事件*/
             $("#map-search").draggable({ containment: "body", scroll: false, cursor: "move" });
             /**检索输入框点击事件*/

@@ -61,7 +61,7 @@ function initMaps() {
     //绑定图层数据改变监听者
     g_oServerApi.addLayerDataChangeListener(g_oSearchWindow);
     g_oServerApi.addLayerDataChangeListener(g_oLayoutManagerWindow);
-    g_oServerApi.addLayerDataChangeListener(g_oAddLayerDialog);
+    //g_oServerApi.addLayerDataChangeListener(g_oAddLayerDialog);
 }
 
 //=====图层信息显示区相关界面事件处理=====
