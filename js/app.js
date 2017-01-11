@@ -1,32 +1,3 @@
-// //=====Ajax相关=====
-// /**
-//  * @breif 创建XMLHTTPRequest对象
-//  */
-// function getXMLHTTPRequest() {
-//     var req = false;
-
-//     try {
-//         //for Firefox
-//         req = new XMLHttpRequest();
-//     } catch (err) {
-//         try {
-//             //for some versions of IE
-//             req = new ActiveXObject("Msxml2.XMLHTTP");
-//         } catch (err) {
-//             try {
-//                 //for some other versions of IE
-//                 req = new ActiveXObject("Microsoft.XMLHTTP");
-//             } catch (err) {
-//                 req = false;
-//             }
-//         }
-//     }
-
-//     return req;
-// }
-// /*} */
-
-
 //=====初始化相关=====
 /**
  * @breif 初始化相关地图
@@ -59,9 +30,16 @@ function initMaps() {
     g_oLayoutManagerWindow.init();
 
     //绑定图层数据改变监听者
-    g_oServerApi.addLayerDataChangeListener(g_oSearchWindow);
-    g_oServerApi.addLayerDataChangeListener(g_oLayoutManagerWindow);
+    //g_oServerApi.addLayerDataChangeListener(g_oSearchWindow);
+    //g_oServerApi.addLayerDataChangeListener(g_oLayoutManagerWindow);
     //g_oServerApi.addLayerDataChangeListener(g_oAddLayerDialog);
+
+    g_oServerApi.addAreaDataChangeListener(g_oSearchWindow);
+    g_oServerApi.addAreaDataChangeListener(g_oAddLayerDialog);
+    g_oServerApi.addAreaDataChangeListener(g_oOutDoorMap);
+    g_oServerApi.addAreaDataChangeListener(g_oLayoutManagerWindow);
+
+    g_oServerApi.ajaxRefreshAllAreaNode();
 }
 
 //=====图层信息显示区相关界面事件处理=====

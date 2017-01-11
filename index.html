@@ -26,6 +26,9 @@
     <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
     <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
 
+
+    <!--<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.css' rel='stylesheet' />-->
+
 </head>
 
 <body onload="initMaps()">
@@ -259,7 +262,7 @@
             <a class="map-tools-menuItem fa fa-refresh fa-2x" title="交换地图" onclick="g_oMapToolWnd.exchangeMapPosition()"></a>
             <a class="map-tools-menuItem fa fa-map-marker fa-2x" title="进入标注节点状态" onclick="g_oMapToolWnd.changeMapState()"></a>
             <!--<a class="map-tools-menuItem fa fa-clock-o fa-2x" title="批量标注" data-toggle="modal" data-target="#map-dialog-layermanager"></a>-->
-            <a class="map-tools-menuItem fa fa-clock-o fa-2x" title="批量标注" onclick="g_oLayoutManagerWindow.show()"></a>
+            <a class="map-tools-menuItem fa fa-list-alt fa-2x" title="图层管理" onclick="g_oLayoutManagerWindow.show()"></a>
             <a class="map-tools-menuItem fa fa-cog fa-2x" title="隐藏标注" onclick="g_oOutDoorMap.removeMarkers()"></a>
             <a class="map-tools-menuItem fa fa-pencil fa-2x" title="交换地图" onclick="g_oMapToolWnd.exchangeMapPosition()"></a>
             <a class="map-tools-menuItem fa fa-eye-slash fa-2x" title="隐藏小地图" onclick="g_oMapToolWnd.changeSmallMapVisibility()"></a>
@@ -346,9 +349,24 @@
                                     <input name="fatherarea" type="text" class="form-control" id="map-dialog-map-fatherarea" placeholder="所属区域" readonly="true">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择<span class="caret"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-right" id="parent-tree">
-
-                                        </div>
+                                        <ul class="dropdown-menu dropdown-menu-right" id="map-dialog-layer-menutype">
+                                            <li icon="fa-bank"><a href="#"><i class="fa fa-bank fa-fw"></i> 场所</a></li>
+                                            <li icon="fa-minus"><a href="#"><i class="fa fa-minus fa-fw"></i> 楼层</a></li>
+                                            <li icon="fa-sitemap"><a href="#"><i class="fa fa-sitemap fa-fw"></i> 虚拟设备</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li icon="fa-sitemap"><a href="#"><i class="fa fa-sitemap fa-fw"></i> 监控主机</a></li>
+                                            <li icon="fa-bell"><a href="#"><i class="fa fa-bell fa-fw"></i> 报警主机</a></li>
+                                            <li icon="fa-microchip"><a href="#"><i class="fa fa-microchip fa-fw"></i> 门禁主机</a></li>
+                                            <li icon="fa-fax"><a href="#"><i class="fa fa-fax fa-fw"></i> 对讲主机</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li icon="fa-video-camera"><a href="#"><i class="fa fa-video-camera fa-fw"></i> 摄像头</a></li>
+                                            <li icon="fa-podcast"><a href="#"><i class="fa fa-podcast fa-fw"></i> 探头</a></li>
+                                            <li icon="fa-rss-square"><a href="#"><i class="fa fa-rss-square fa-fw"></i> 输出</a></li>
+                                            <li icon="fa-microphone"><a href="#"><i class="fa fa-microphone fa-fw"></i> 面板</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li icon="fa-fire-extinguisher"><a href="#"><i class="fa fa-fire-extinguisher fa-fw"></i> 消防器材</a></li>
+                                            <li icon="fa-exclamation-triangle"><a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> 重点部位</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -412,7 +430,7 @@
                                     <input name="nodetype" type="text" class="form-control" id="map-dialog-node-type" placeholder="节点类型" readonly="true">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">选择<span class="caret"></span></button>
-                                        <ul id="map-dialog-node-menutype" class="dropdown-menu dropdown-menu-right">
+                                        <ul class="dropdown-menu dropdown-menu-right" id="map-dialog-node-menutype">
                                             <li icon="fa-bank"><a href="#"><i class="fa fa-bank fa-fw"></i> 场所</a></li>
                                             <li icon="fa-minus"><a href="#"><i class="fa fa-minus fa-fw"></i> 楼层</a></li>
                                             <li icon="fa-sitemap"><a href="#"><i class="fa fa-sitemap fa-fw"></i> 虚拟设备</a></li>
@@ -449,7 +467,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10 ">
-                                <label><input type="checkbox" value="">
+                                <label><input type="checkbox" id="map-dialog-node-isarea" value="">
                                     是否拥有室内布防图
                                 </label>
                             </div>
@@ -484,6 +502,7 @@
     <script src="js/jquery.form.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/mapbox-gl.js"></script>
+    <!--<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.js'></script>-->
     <script src="js/ol.js"></script>
 
     <!--<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
@@ -494,6 +513,7 @@
     <script src="js/bootstrap-table-zh-CN.min.js"></script>
     <script src="js/jstree.min.js"></script>
     <!--<script src="js/bootbox.min.js"></script>-->
+
     <script src="js/sweetalert.min.js"></script>
     <script src="js/toastr.min.js"></script>
 

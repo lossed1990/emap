@@ -64,6 +64,8 @@ var MapToolWnd = {
             var resizeEvent = document.createEvent("HTMLEvents");
             resizeEvent.initEvent("resize", false, true);
             window.dispatchEvent(resizeEvent);
+
+            g_oOutDoorMap.init();
         };
 
         tool.changeMapState = function() {

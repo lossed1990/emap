@@ -139,11 +139,14 @@ var OutDoorMap = {
         var m_bLoadMarkers = false;
         //是否进入添加图标状态
         var m_bAddMarkerState = false;
-        //marker数据对象
+        //marker数据对象(暂不用)
         var m_oCommonMarkersData = {
             "type": "FeatureCollection",
             "features": []
         };
+
+        //marker对象数组   marker{icon：mapboxgl.Marker object，text：mapboxgl.Marker object}
+        var m_oMarkersMap = [];
 
         var m_oFlashMarkersData = null;
 
@@ -152,6 +155,8 @@ var OutDoorMap = {
             closeButton: false,
             closeOnClick: false
         });
+
+        var m_arrayMarkers = [];
 
         //=====公共接口方法=====
         /**
@@ -162,8 +167,8 @@ var OutDoorMap = {
             m_oGLMap = new mapboxgl.Map({
                 container: 'map-outdoor', // container id
                 style: 'mapstyle/style.json', //stylesheet location
-                center: [121.4, 31.2], // starting position
-                zoom: 12 // starting zoom
+                center: [121.49610995384057, 31.28225900970679], //[-87.61694, 41.86625], //, //[121.4, 31.2], // starting position 
+                zoom: 14 // starting zoom
             });
 
             //区域绘制工具
@@ -191,27 +196,35 @@ var OutDoorMap = {
             //     }
             // };
 
-            //启动后，加载marker
+            //启动后，加载marker 加载3d楼层数据 demo https://www.mapbox.com/mapbox-gl-js/example/3d-extrusion-floorplan/
             m_oGLMap.on('load', function() {
-                map.addMarkers(map.m_geojson_MarkersData_onload);
+                refreshMarkers();
 
-                //绘制图片
-                // m_oGLMap.addSource("ID_IMAGE", {
-                //     "type": "image",
-                //     "url": "img/map.jpg",
-                //     "coordinates": [
-                //         [121.4, 31.2],
-                //         [125.516, 31.2],
-                //         [125.516, 33.936],
-                //         [121.4, 33.936]
-                //     ]
-                // });
+                m_oGLMap.addSource("museumData", {
+                    'type': 'geojson',
+                    'data': 'data/indoor-3d-map.geojson'
+                });
 
-                // m_oGLMap.addLayer({
-                //     "id": "ID_LAYER_IMAGE",
-                //     "type": "raster",
-                //     "source": "ID_IMAGE"
-                // });
+                m_oGLMap.addLayer({
+                    'id': 'room-extrusion',
+                    'type': 'fill-extrusion',
+                    'source': 'museumData',
+                    'paint': {
+                        'fill-extrusion-color': {
+                            'property': 'color',
+                            'type': 'identity'
+                        },
+                        'fill-extrusion-height': {
+                            'property': 'height',
+                            'type': 'identity'
+                        },
+                        'fill-extrusion-base': {
+                            'property': 'base_height',
+                            'type': 'identity'
+                        },
+                        'fill-extrusion-opacity': 0.5
+                    }
+                });
             });
 
             //监听鼠标移动消息，进行marker信息框的弹出                                                           
@@ -266,6 +279,17 @@ var OutDoorMap = {
             });
         };
 
+        map.resize = function() {
+            m_oGLMap.resize();
+            //m_oGLMap.repaint();
+            toastr.success("resize");
+        }
+
+        map.onAreaDataChange = function(data) {
+            m_arrayMarkers = data;
+            refreshMarkers();
+        }
+
         map.addMarker = function(marker) {
             //添加图标        
             var el = document.createElement('a');
@@ -281,12 +305,13 @@ var OutDoorMap = {
                     "data-content": marker.properties.description
                 })
                 .css({
-                    "color": "#337AB7"
+                    "color": "#337AB7",
+                    "z-index": 0
                 });
 
             $(el).popover();
 
-            new mapboxgl.Marker(el, { offset: [-24, -23] }) //此处的偏移量建议不要轻易改动
+            var markerIcon = new mapboxgl.Marker(el, { offset: [-24, -23] }) //此处的偏移量建议不要轻易改动
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(m_oGLMap);
 
@@ -297,10 +322,25 @@ var OutDoorMap = {
                     "color": "#337AB7",
                 });
 
-            new mapboxgl.Marker(name, { offset: [-9, 10] }) //此处的偏移量建议不要轻易改动
+            var markerText = new mapboxgl.Marker(name, { offset: [-9, 10] }) //此处的偏移量建议不要轻易改动
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(m_oGLMap);
+
+            var newMarkerObject = {};
+            newMarkerObject['el'] = el;
+            newMarkerObject['icon'] = markerIcon;
+            newMarkerObject['text'] = markerText;
+            m_oMarkersMap.push(newMarkerObject);
         };
+
+        map.removeAllMarkers = function() {
+            var index = null;
+            for (index in m_oMarkersMap) {
+                var markerobject = m_oMarkersMap[index];
+                markerobject.icon.remove();
+                markerobject.text.remove();
+            }
+        }
 
         /**
          * @breif 添加markers
@@ -332,6 +372,15 @@ var OutDoorMap = {
             m_oGLMap.getCanvas().style.cursor = "";
         }
 
+        function refreshMarkers() {
+            map.removeAllMarkers();
+
+            var index = null;
+            for (index in m_arrayMarkers) {
+                map.addMarker(m_arrayMarkers[index]);
+            }
+        }
+
         // /**
         //  * @breif 改变鼠标形状
         //  */
@@ -343,46 +392,46 @@ var OutDoorMap = {
         /**
          * @breif 刷新markers
          */
-        function refreshMarkers() {
-            if (m_bLoadMarkers) {
-                m_oGLMap.removeLayer('ID_LAYER_MARKERS');
-                m_oGLMap.removeSource('ID_SOURCE_COMMON_MARKERS');
-                m_bLoadMarkers = false;
-            }
+        // function refreshMarkers() {
+        //     if (m_bLoadMarkers) {
+        //         m_oGLMap.removeLayer('ID_LAYER_MARKERS');
+        //         m_oGLMap.removeSource('ID_SOURCE_COMMON_MARKERS');
+        //         m_bLoadMarkers = false;
+        //     }
 
-            if (m_oCommonMarkersData) {
-                //新建marker资源数据
-                m_oGLMap.addSource("ID_SOURCE_COMMON_MARKERS", {
-                    "type": "geojson",
-                    "data": m_oCommonMarkersData
-                });
+        //     if (m_oCommonMarkersData) {
+        //         //新建marker资源数据
+        //         m_oGLMap.addSource("ID_SOURCE_COMMON_MARKERS", {
+        //             "type": "geojson",
+        //             "data": m_oCommonMarkersData
+        //         });
 
-                //新建地图图层，显示marker
-                m_oGLMap.addLayer({
-                    "id": "ID_LAYER_MARKERS",
-                    "type": "symbol", //https://www.mapbox.com/mapbox-gl-style-spec/#layers-symbol
-                    "source": "ID_SOURCE_COMMON_MARKERS",
-                    "layout": {
-                        "icon-image": "fa fa-plane fa-2x", //{icon}-15
-                        //"symbol-placement": "line",
+        //         //新建地图图层，显示marker
+        //         m_oGLMap.addLayer({
+        //             "id": "ID_LAYER_MARKERS",
+        //             "type": "symbol", //https://www.mapbox.com/mapbox-gl-style-spec/#layers-symbol
+        //             "source": "ID_SOURCE_COMMON_MARKERS",
+        //             "layout": {
+        //                 "icon-image": "fa fa-plane fa-2x", //{icon}-15
+        //                 //"symbol-placement": "line",
 
-                        "text-field": "{title}",
-                        "text-font": ["yahei"],
-                        "text-offset": [0, 0.6],
-                        "text-anchor": "top",
-                        "icon-allow-overlap": true
-                    },
-                    'paint': { //https://www.mapbox.com/mapbox-gl-style-spec/#paint_symbol
-                        'text-color': '#FF0000',
-                        'icon-color': '#FF0000',
-                        'text-halo-width': 2,
-                        'text-halo-color': '#00FF00'
-                    }
-                });
+        //                 "text-field": "{title}",
+        //                 "text-font": ["yahei"],
+        //                 "text-offset": [0, 0.6],
+        //                 "text-anchor": "top",
+        //                 "icon-allow-overlap": true
+        //             },
+        //             'paint': { //https://www.mapbox.com/mapbox-gl-style-spec/#paint_symbol
+        //                 'text-color': '#FF0000',
+        //                 'icon-color': '#FF0000',
+        //                 'text-halo-width': 2,
+        //                 'text-halo-color': '#00FF00'
+        //             }
+        //         });
 
-                m_bLoadMarkers = true;
-            }
-        };
+        //         m_bLoadMarkers = true;
+        //     }
+        // };
 
         return map;
     }

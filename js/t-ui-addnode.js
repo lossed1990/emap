@@ -10,6 +10,7 @@ var AddNodeDialog = {
         var $m_inputNodeType = $("#map-dialog-node-type");
         var $m_inputNodePosition = $("#map-dialog-node-position");
         var $m_inputNodeDescription = $("#map-dialog-node-description");
+        var $m_checkboxIsArea = $("#map-dialog-node-isarea");
 
         dialog.init = function() {
             /**
@@ -25,9 +26,13 @@ var AddNodeDialog = {
              */
             $("#map-dialog-node-submit").click(function() {
                 if ($m_inputNodeName.val() == "") {
-                    //fillErrorHtml("请输入节点名称");
                     toastr.error('请输入节点名称！');
                     return;
+                }
+
+                var nodetype = $m_inputNodeType.attr("icon");
+                if ($m_checkboxIsArea.is(":checked")) {
+                    nodetype = 'area';
                 }
 
                 //获取参数，构造节点json对象
@@ -44,7 +49,7 @@ var AddNodeDialog = {
                     },
                     "id": "ADD",
                     "layerid": "ROOT",
-                    "nodetype": "area"
+                    "nodetype": nodetype
                 };
                 nodejson.geometry.coordinates[0] = $m_inputNodePosition.attr("lng");
                 nodejson.geometry.coordinates[1] = $m_inputNodePosition.attr("lat");

@@ -7,6 +7,10 @@ var LayoutManagerWindow = {
         var $m_ui_modal = $('#map-dialog-layermanager');
         var $m_ui_table = $('#layer-table');
 
+        var m_areaArray = [];
+        var m_layersJsonArray = [];
+        var m_markCount = 0; //区域节点图层获取标志位
+
         wnd.init = function() {
             //初始化表格控件
             $m_ui_table.bootstrapTable({
@@ -61,15 +65,42 @@ var LayoutManagerWindow = {
             $m_ui_modal.modal('show');
         }
 
-        wnd.onLayerDataChange = function(datamap) {
-            var dataJson = [];
-            var layerid = null;
-            for (layerid in datamap) {
-                dataJson.push(datamap[layerid]);
-            }
+        //区域节点数据改变事件
+        wnd.onAreaDataChange = function(data) {
+            m_areaArray = data;
+            m_markCount = 0;
+            m_layersJsonArray = [];
 
-            wnd.loadData(dataJson);
+            var index = null;
+            for (index in m_areaArray) {
+                var areaobject = m_areaArray[index];
+
+                //获取当前区域节点下的图层信息
+                g_oServerApi.ajaxGetAreaLayers(areaobject.id, function(data) {
+                    m_markCount++;
+
+                    var index = null;
+                    for (index in data) {
+                        m_layersJsonArray.push(data[index]);
+                    }
+
+                    //数据获取完毕
+                    if (m_markCount == m_areaArray.length) {
+                        wnd.loadData(m_layersJsonArray);
+                    }
+                });
+            }
         }
+
+        // wnd.onLayerDataChange = function(datamap) {
+        //     var dataJson = [];
+        //     var layerid = null;
+        //     for (layerid in datamap) {
+        //         dataJson.push(datamap[layerid]);
+        //     }
+
+        //     wnd.loadData(dataJson);
+        // }
 
         wnd.loadData = function(dataJson) {
             $m_ui_table.bootstrapTable('load', dataJson);
@@ -89,7 +120,7 @@ var LayoutManagerWindow = {
             //     alert("mod row:" + row + "index:" + index);
             // },
             'click .delete': function(e, value, row, index) {
-                var textInfoStr = "确定要删除图层[" + row.name + "]吗?"
+                var textInfoStr = "确定要删除图层[" + row.name + "]吗?";
                 swal({  
                         title: "提示",
                         text: textInfoStr,
@@ -101,7 +132,15 @@ var LayoutManagerWindow = {
                     },
                     function(isConfirm) {  
                         if (isConfirm) {    
-                            g_oServerApi.ajaxDeleteLayer(row.id);
+                            g_oServerApi.ajaxDeleteLayer(row.name, row.id, function() {
+                                for (var i = 0; i < m_layersJsonArray.length; i++) {
+                                    if (m_layersJsonArray[i].id == row.id) {
+                                        m_layersJsonArray.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                                wnd.loadData(m_layersJsonArray);
+                            });
                         }
                     });
             }

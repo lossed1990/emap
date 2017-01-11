@@ -4,33 +4,27 @@ var AddLayerDialog = {
         var dialog = {};
         //=====私有成员变量=====
         /** UI对象 */
+        var $m_thisDialog = $('#map-dialog-layer');
         var $m_inputAreaname = $("#map-dialog-map-areaname");
         var $m_inputFatherarea = $("#map-dialog-map-fatherarea");
         var $m_inputLayerFile = $("#map-dialog-map-inputmap");
         var $m_inputDescription = $("#map-dialog-map-description");
-        //var $m_treeParent = $("#parent-tree");
+        var $m_ulParentMenu = $("#map-dialog-layer-menutype");
+        var m_curSelectParentId = null;
         //上传图层文件的原始宽高
         var m_nLayerFileWidth = 0;
         var m_nLayerFileHeight = 0;
-        //当前选择的图层节点
-        //var m_treeCurrentSelect = null;
 
         dialog.init = function() {
-            // $m_treeParent.click(function(e) {
-            //     //点击树形控件时，捕获消息不隐藏弹出菜单 //http://blog.csdn.net/yangding_/article/details/52856943
-            //     e.stopPropagation();
-            // });
+            /**
+             * @brief 绑定节点类型选择下拉菜单事件
+             */
+            $m_ulParentMenu.on('click', 'li', function() {
+                $m_inputFatherarea.val($(this).text());
+                m_curSelectParentId = $(this).attr("nodeid");
+            });
 
-            // $m_treeParent.on("changed.jstree", function(e, data) {
-            //     console.log("The selected nodes are:");
-            //     console.log(data.selected);
-
-            //     //m_treeCurrentSelect = data.selected;
-            //     var layerobject = g_oServerApi.getLayerObjectById(data.selected);
-            //     $m_inputFatherarea.val(layerobject.name);
-            //     $m_inputFatherarea.attr("layerid", data.selected);
-            // });
-
+            //refreshParentMenu();
 
             /**
              * @brief 绑定提交按钮事件
@@ -51,15 +45,14 @@ var AddLayerDialog = {
                 data.append('upfile', layerFileInfo);
 
                 g_oServerApi.ajaxUploadImage(data, function(result) {
-                    if (m_nLayerFileHeight == 0 || m_nLayerFileWidth == 0) {
-                        //fillErrorHtml("图层添加失败,请稍后重试！");
+                    if (m_nLayerFileHeight == 0 || m_nLayerFileWidth == 0 || m_curSelectParentId == null) {
                         toastr.error('图层添加失败,图层加载失败，请稍后重试！');
                         return;
                     }
 
                     var layerJson = {
                         "description": $m_inputDescription.val(),
-                        "fatherid": $m_inputFatherarea.attr("layerid"),
+                        "fatherid": m_curSelectParentId,
                         "id": "ADD",
                         "img": {
                             "height": m_nLayerFileHeight,
@@ -75,12 +68,16 @@ var AddLayerDialog = {
                         $m_inputFatherarea.val("");
                         $m_inputDescription.val("");
                         $m_inputLayerFile.val("");
-                        $m_inputFatherarea.attr("layerid", "");
+                        m_curSelectParentId = null;
                     });
                 });
 
                 //$('#map-dialog-layer').modal('hide');
             });
+        };
+
+        dialog.onAreaDataChange = function(data) {
+            refreshParentMenu(data);
         };
 
         /**
@@ -91,34 +88,24 @@ var AddLayerDialog = {
          * @param lat  纬度
          */
         dialog.showAddLayerModal = function() {
-            $('#map-dialog-layer').modal('show');
+            $m_thisDialog.modal('show');
         };
-
-        /**
-         * @brief 图层数据改变事件
-         */
-        // dialog.onLayerDataChange = function(datamap) {
-        //     refreshParentTree(datamap);
-        // }
 
         /**
          * @breif 检查上传参数信息
          */
         function checkParam() {
             if ($m_inputAreaname.val() == "") {
-                // fillErrorHtml("请输入图层名称");
                 toastr.error('请输入图层名称！');
                 return false;
             }
 
             if ($m_inputFatherarea.val() == "") {
-                //fillErrorHtml("请选择所属图层");
                 toastr.error('请选择所属图层！');
                 return false;
             }
 
             if ($m_inputLayerFile.val() == "") {
-                //fillErrorHtml("请选择地图文件");
                 toastr.error('请选择地图文件！');
                 return false;
             }
@@ -145,39 +132,23 @@ var AddLayerDialog = {
             };
         }
 
-        // function refreshParentTree(datamap) {
-        //     var datajson = [];
-        //     var rootobject = { "id": "ROOT", "text": "ROOT", "children": [] }; //根节点对象
-        //     var subobject = { 'ROOT': rootobject }; //缓存子节点对象，用以构造节点树
+        function refreshParentMenu(data) {
+            $m_ulParentMenu.empty();
 
-        //     var layerid = null;
-        //     var layerobject = null;
-        //     for (layerid in datamap) {
-        //         layerobject = datamap[layerid];
-
-        //         if (layerobject.fatherid in subobject) {
-        //             var newobject = {};
-        //             newobject['id'] = layerobject.id;
-        //             newobject['text'] = layerobject.name;
-        //             newobject['children'] = [];
-
-        //             subobject[layerobject.id] = newobject;
-        //             subobject[layerobject.fatherid]['children'].push(newobject);
-        //         }
-        //     }
-
-        //     datajson.push(rootobject);
-
-        //     $m_treeParent.jstree({
-        //         'core': {
-        //             'data': datajson
-        //         }
-        //     });
-        // }
-        function refreshParentTree() {
-            g_oServerApi.ajaxAddNode(function(nodejson) {
-
-            });
+            var index = null;
+            for (index in data) {
+                var nodeobject = data[index];
+                var subHtml = "<li nodeid='" + nodeobject.id + "'><a href='#'><i class='fa fa-bank fa-fw'></i>&nbsp;" + nodeobject.properties.title + "</a></li>";
+                $m_ulParentMenu.append(subHtml);
+            }
+            // g_oServerApi.ajaxGetAllAreaNode(function(data) {
+            //     $m_ulParentMenu.empty();
+            //     for (index in data) {
+            //         var nodeobject = data[index];
+            //         var subHtml = "<li icon='fa-bank'><a href='#'><i class='fa fa-bank fa-fw' nodeid='" + nodeobject.id + "'></i>&nbsp;" + nodeobject.properties.title + "</a></li>";
+            //         $m_ulParentMenu.append(subHtml);
+            //     }
+            // });
         }
 
         return dialog;
